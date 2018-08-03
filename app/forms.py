@@ -8,4 +8,4 @@ class UserForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     first_name = StringField('First name', validators=[DataRequired()])
     last_name = StringField('Last name', validators=[DataRequired()])
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Create')
