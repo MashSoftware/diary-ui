@@ -32,6 +32,13 @@
         <div class="invalid-feedback">{{error}}</div>
         {% endfor %}
     </div>
+    <div class="form-group">
+        <div class="form-check">
+            {{ form.remember_me(class="form-check-input") }}
+            {{ form.remember_me.label(class="form-check-label") }}
+        </div>
+    </div>
+    
     {{ form.submit(class="btn btn-primary") }}
 </form>
 {% endblock %}
