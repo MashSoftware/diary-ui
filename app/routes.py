@@ -17,7 +17,7 @@ def create_user():
     if form.validate_on_submit():
         flash('Success!')
         return redirect(url_for('index'))
-    return render_template('user.html', title='Create user', form=form)
+    return render_template('user.html', title='Sign up', form=form)
 
 
 @app.route('/children', methods=['GET', 'POST'])
