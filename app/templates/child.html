@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h1>Register child</h1><hr>
+    </div>
+</div>
+
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.first_name.label }}
+        {% if form.first_name.errors %}
+        {{ form.first_name(class="form-control is-invalid") }}
+        {% else %}
+        {{ form.first_name(class="form-control") }}
+        {% endif %}
+        {% for error in form.first_name.errors %}
+        <div class="invalid-feedback">{{error}}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.last_name.label }}
+        {% if form.last_name.errors %}
+        {{ form.last_name(class="form-control is-invalid") }}
+        {% else %}
+        {{ form.last_name(class="form-control") }}
+        {% endif %}
+        {% for error in form.last_name.errors %}
+        <div class="invalid-feedback">{{error}}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.date_of_birth.label }}
+        {% if form.date_of_birth.errors %}
+        {{ form.date_of_birth(class="form-control is-invalid", type="date") }}
+        {% else %}
+        {{ form.date_of_birth(class="form-control", type="date") }}
+        {% endif %}
+        {% for error in form.date_of_birth.errors %}
+        <div class="invalid-feedback">{{error}}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        {% if form.gender.errors %}
+        {% for subfield in form.gender %}
+        <div class="form-check">
+        {{ subfield(class="form-check-input is-invalid") }}
+        {{ subfield.label(class="form-check-label is-invalid") }}
+        </div>
+        {% endfor %}
+        {% else %}
+        {% for subfield in form.gender %}
+        <div class="form-check">
+        {{ subfield(class="form-check-input") }}
+        {{ subfield.label(class="form-check-label") }}
+        </div>
+        {% endfor %}
+        {% endif %} 
+
+        {% for error in form.gender.errors %}
+        <div class="invalid-feedback">{{error}}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}
