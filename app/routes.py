@@ -5,14 +5,13 @@ from app.forms import RegisterChildForm, SignUpForm, LogInForm
 
 
 @app.route('/')
-@app.route('/index')
 def index():
     user = {'username': 'Matt'}
     return render_template('index.html', title='Home', user=user)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
-def create_user():
+def signup():
     form = SignUpForm()
     if form.validate_on_submit():
         flash('{} {} signed up!'.format(form.first_name.data, form.last_name.data))
