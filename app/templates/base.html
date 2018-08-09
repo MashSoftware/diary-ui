@@ -23,12 +23,18 @@
     
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
+                {% if current_user.is_anonymous %}
                 <li class="nav-item">
                     <a class="btn btn-link" href="{{ url_for('login') }}" role="button">Log In</a>
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-primary" href="{{ url_for('signup') }}" role="button">Sign Up</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-link" href="{{ url_for('logout') }}" role="button">Log Out</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>
