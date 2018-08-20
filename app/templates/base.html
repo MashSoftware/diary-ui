@@ -25,14 +25,14 @@
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_anonymous %}
                 <li class="nav-item">
-                    <a class="btn btn-link" href="{{ url_for('login') }}" role="button"><i class="fas fa-sign-in-alt fa-fw fa-lg"></i> Log In</a>
+                    <a class="btn btn-link" href="{{ url_for('login') }}" role="button"><i class="fas fa-sign-in-alt fa-lg"></i> Log in</a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-primary" href="{{ url_for('signup') }}" role="button"><i class="fas fa-user fa-fw"></i> Sign Up</a>
+                    <a class="btn btn-primary" href="{{ url_for('signup') }}" role="button"><i class="fas fa-user fa-lg"></i> Sign up</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="btn btn-link" href="{{ url_for('logout') }}" role="button"><i class="fas fa-sign-out-alt fa-fw fa-lg"></i> Log Out</a>
+                    <a class="btn btn-link" href="{{ url_for('logout') }}" role="button"><i class="fas fa-sign-out-alt fa-lg"></i> Log out</a>
                 </li>
                 {% endif %}
             </ul>
