@@ -7,7 +7,7 @@
 </div>
 
 <form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
     <div class="form-group">
         {{ form.first_name.label }}
         {% if form.first_name.errors %}
