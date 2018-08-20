@@ -12,14 +12,12 @@ class SignUpForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8, max=72)],
                              description="Must be between 8 and 72 characters long.")
     confirm_password = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password', message="Passwords must match.")])
-    submit = SubmitField('Sign up')
 
 
 class LogInForm(FlaskForm):
     email_address = StringField('Email address', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember me')
-    submit = SubmitField('Log in')
 
 
 class RegisterChildForm(FlaskForm):
@@ -27,4 +25,3 @@ class RegisterChildForm(FlaskForm):
     last_name = StringField('Last name', validators=[DataRequired()])
     date_of_birth = DateField('Date of birth', validators=[DataRequired()])
     gender = RadioField('Gender', validators=[DataRequired()], choices=[('male', 'Male'), ('female', 'Female')])
-    submit = SubmitField('Register')
