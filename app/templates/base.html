@@ -14,7 +14,7 @@
     <!-- Font Awesome Icons-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-    <title>{{ title }} - Childcare Diary</title>
+    <title>{{ title }} | Childcare Diary</title>
 </head>
 
 <body>
@@ -33,11 +33,14 @@
                         <a class="btn btn-link" href="{{ url_for('login') }}" role="button"><i class="fas fa-sign-in-alt fa-lg"></i> Log in</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ url_for('signup') }}" role="button"><i class="fas fa-user fa-lg"></i> Sign up</a>
+                        <a class="btn btn-primary" href="{{ url_for('signup') }}" role="button"><i class="fas fa-user-plus fa-lg"></i> Sign up</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
                         <a class="btn btn-link" href="{{ url_for('logout') }}" role="button"><i class="fas fa-sign-out-alt fa-lg"></i> Log out</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="{{ url_for('user') }}" role="button"><i class="fas fa-user fa-lg"></i> Profile</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -55,6 +58,11 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
+        <div class="row">
+            <div class="col">
+                <h1>{{ title }}</h1><hr>
+            </div>
+        </div>
         {% block content %}{% endblock %}
     </div>
 </body>
