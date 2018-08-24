@@ -2,10 +2,9 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <h1>User</h1><hr>
+        <p>{{ user.user_id }}</p>
+        <p>{{ user.first_name }} {{user.last_name }}</p>
+        <p>{{ user.email_address }}</p>
     </div>
 </div>
-<p>{{ user.user_id }}</p>
-<p>{{ user.first_name }} {{user.last_name }}</p>
-<p>{{ user.email_address }}</p>
 {% endblock %}
