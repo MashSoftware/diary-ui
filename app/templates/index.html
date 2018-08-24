@@ -1,12 +1,11 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="row">
     <div class="col">
         {% if current_user.is_anonymous %}
-        <h1>Hello stranger</h1>
+        <p class="lead">Hello stranger</p>
         {% else %}
-        <h1>Welcome back {{ current_user.first_name }}</h1>
+        <p class="lead">Welcome back {{ current_user.first_name }}</p>
         {% endif %}
     </div>
 </div>
