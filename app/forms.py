@@ -11,7 +11,7 @@ class SignUpForm(FlaskForm):
                                 description="We'll never share your email with anyone else.")
     password = PasswordField('Password', validators=[DataRequired(message="Password is required"), Length(min=8, max=72)],
                              description="Must be between 8 and 72 characters long.")
-    confirm_password = PasswordField('Confirm password', validators=[DataRequired(message="Confirm password is required"), EqualTo('password', message="Passwords must match.")])
+    confirm_password = PasswordField('Confirm password', validators=[DataRequired(message="Please confirm your password"), EqualTo('password', message="Passwords must match.")])
 
 
 class LogInForm(FlaskForm):
