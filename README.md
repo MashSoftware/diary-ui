@@ -1,6 +1,7 @@
 # Diary UI
 
 [![Build Status](https://travis-ci.org/MashSoftware/diary-ui.svg?branch=master)](https://travis-ci.org/MashSoftware/diary-ui)
+[![Requirements Status](https://requires.io/github/MashSoftware/diary-ui/requirements.svg?branch=master)](https://requires.io/github/MashSoftware/diary-ui/requirements/?branch=master)
 
 ## Getting started
 
