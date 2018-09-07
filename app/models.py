@@ -3,14 +3,15 @@ import json
 import requests
 from flask import Response
 
-from app import app
+from app import app, login
+from flask_login import UserMixin
 
 base_url = app.config.get('DIARY_API_URL')
 version = app.config.get('DIARY_API_VERSION')
 timeout = app.config.get('DIARY_API_TIMEOUT')
 
 
-class User(object):
+class User(UserMixin):
 
     def create(self, password, first_name, last_name, email_address):
         """Create a new user."""
@@ -29,7 +30,7 @@ class User(object):
         }
 
         try:
-            response = requests.post(url, data=json.dumps(new_user), headers=headers, timeout=5)
+            response = requests.post(url, data=json.dumps(new_user), headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
             return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
                             mimetype='application/json',
@@ -43,37 +44,80 @@ class User(object):
                 user = json.loads(response.text)
                 return user
 
-    def search(self, query):
-        """Search for users."""
+    def search(self, email_address):
+        """Search for user by email address."""
         pass
 
-    def get(self, user_id):
+    def get(self, id):
         """Get a user."""
-        url = '{0}/users/{1}'.format(base_url, str(user_id))
+        url = '{0}/users/{1}'.format(base_url, str(id))
         headers = {"Accept": "application/json"}
 
         try:
-            response = requests.get(url, headers=headers, timeout=5)
+            response = requests.get(url, headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
             return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
                             mimetype='application/json',
                             status=408)
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to create user"}, separators=(',', ':')),
+                return Response(response=json.dumps({"message": "Failed to retrieve user"}, separators=(',', ':')),
                                 mimetype='application/json',
                                 status=response.status_code)
             else:
-                user = json.loads(response.text)
+                user_dict = json.loads(response.text)
+                user = self
+                user.id = user_dict["id"]
+                user.email_address = user_dict["email_address"]
+                user.first_name = user_dict["first_name"]
+                user.last_name = user_dict["last_name"]
                 return user
 
-    def update(self, user_id):
+    def update(self, id):
         """Update a user."""
         pass
 
-    def delete(self, user_id):
+    def delete(self, id):
         """Delete a user."""
         pass
+
+    def login(self, email_address, password):
+        """Log in a user"""
+        url = '{0}/login'.format(base_url)
+
+        credentials = {
+            "email_address": email_address,
+            "password": password
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.post(url, data=json.dumps(credentials), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
+                            mimetype='application/json',
+                            status=408)
+        else:
+            if response.status_code == 401:
+                return None
+            else:
+                user_dict = json.loads(response.text)
+                user = self
+                user.id = user_dict["id"]
+                user.email_address = user_dict["email_address"]
+                user.first_name = user_dict["first_name"]
+                user.last_name = user_dict["last_name"]
+                return user
+
+
+@login.user_loader
+def load_user(id):
+    user = User()
+    return user.get(id)
 
 
 class Child(object):
@@ -94,7 +138,7 @@ class Child(object):
         pass
 
 
-class Event (object):
+class Event(object):
 
     def create(self, event):
         pass
