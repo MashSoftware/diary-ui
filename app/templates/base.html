@@ -40,7 +40,7 @@
                         <a class="btn btn-link" href="{{ url_for('logout') }}" role="button"><i class="fas fa-sign-out-alt fa-lg"></i> Log out</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ url_for('user') }}" role="button"><i class="fas fa-user fa-lg"></i> Profile</a>
+                        <a class="btn btn-primary" href="{{ url_for('get_user', id=current_user.id) }}" role="button"><i class="fas fa-user fa-lg"></i> Profile</a>
                     </li>
                     {% endif %}
                 </ul>
