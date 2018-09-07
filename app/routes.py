@@ -14,6 +14,9 @@ def index():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
     form = SignUpForm()
     if form.validate_on_submit():
         user = User()
