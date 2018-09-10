@@ -41,7 +41,10 @@ class User(UserMixin):
                                 mimetype='application/json',
                                 status=response.status_code)
             else:
-                user = json.loads(response.text)
+                user_dict = json.loads(response.text)
+                user = self
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
                 return user
 
     def search(self, email_address):
@@ -67,10 +70,8 @@ class User(UserMixin):
             else:
                 user_dict = json.loads(response.text)
                 user = self
-                user.id = user_dict["id"]
-                user.email_address = user_dict["email_address"]
-                user.first_name = user_dict["first_name"]
-                user.last_name = user_dict["last_name"]
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
                 return user
 
     def update(self, id):
@@ -107,10 +108,8 @@ class User(UserMixin):
             else:
                 user_dict = json.loads(response.text)
                 user = self
-                user.id = user_dict["id"]
-                user.email_address = user_dict["email_address"]
-                user.first_name = user_dict["first_name"]
-                user.last_name = user_dict["last_name"]
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
                 return user
 
 
