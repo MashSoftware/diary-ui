@@ -40,4 +40,9 @@
         </dl>
     </div>
 </div>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-primary btn-lg" href="{{ url_for('edit_user', id=current_user.id) }}" role="button"><i class="fas fa-user-edit fa-lg"></i> Update</a>
+    </div>
+</div>
 {% endblock %}

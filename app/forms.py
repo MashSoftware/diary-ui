@@ -19,6 +19,13 @@ class LogInForm(FlaskForm):
     remember_me = BooleanField('Remember me')
 
 
+class EditUserForm(FlaskForm):
+    first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
+    last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
+    email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
+                                description="We'll never share your email with anyone else.")
+
+
 class RegisterChildForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
