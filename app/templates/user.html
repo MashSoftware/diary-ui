@@ -5,20 +5,32 @@
         <dl>
             <dt>User ID</dt>
             <dd>{{ current_user.id }}</dd>
+            
             <dt>First name</dt>
             <dd>{{ current_user.first_name }}</dd>
+            
             <dt>Last name</dt>
             <dd>{{ current_user.last_name }}</dd>
+            
             <dt>Email address</dt>
             <dd>{{ current_user.email_address }}</dd>
+            
             <dt>Created at</dt>
             <dd>{{ current_user.created_at }}</dd>
+            
+            {% if current_user.updated_at %}
             <dt>Updated at</dt>
             <dd>{{ current_user.updated_at }}</dd>
+            {% endif %}
+
+            {% if current_user.activated_at %}
             <dt>Activated at</dt>
             <dd>{{ current_user.activated_at }}</dd>
+            {% endif %}
+
             <dt>Login at</dt>
             <dd>{{ current_user.login_at }}</dd>
+            
             {% if current_user.childen %}
             <dt>Children</dt>
             {% for child in current_user.children %}
