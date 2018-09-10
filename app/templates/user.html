@@ -2,9 +2,26 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <p>{{ user.id }}</p>
-        <p>{{ user.first_name }} {{ user.last_name }}</p>
-        <p>{{ user.email_address }}</p>
+        <dl>
+            <dt>User ID</dt>
+            <dd>{{ current_user.id }}</dd>
+            <dt>First name</dt>
+            <dd>{{ current_user.first_name }}</dd>
+            <dt>Last name</dt>
+            <dd>{{ current_user.last_name }}</dd>
+            <dt>Email address</dt>
+            <dd>{{ current_user.email_address }}</dd>
+            <dt>Created at</dt>
+            <dd>{{ current_user.created_at }}</dd>
+            <dt>Updated at</dt>
+            <dd>{{ current_user.updated_at }}</dd>
+            <dt>Activated at</dt>
+            <dd>{{ current_user.activated_at }}</dd>
+            <dt>Login at</dt>
+            <dd>{{ current_user.login_at }}</dd>
+            <dt>Children</dt>
+            <dd>{{ current_user.children }}</dd>
+        </dl>
     </div>
 </div>
 {% endblock %}
