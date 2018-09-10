@@ -19,8 +19,12 @@
             <dd>{{ current_user.activated_at }}</dd>
             <dt>Login at</dt>
             <dd>{{ current_user.login_at }}</dd>
+            {% if current_user.childen %}
             <dt>Children</dt>
-            <dd>{{ current_user.children }}</dd>
+            {% for child in current_user.children %}
+            <dd>{{ child }}</dd>
+            {% endfor %}
+            {% endif %}
         </dl>
     </div>
 </div>
