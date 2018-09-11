@@ -72,9 +72,6 @@ def edit_user(id):
 
     form = UserForm()
     if form.validate_on_submit():
-        current_user.first_name = form.first_name.data
-        current_user.last_name = form.last_name.data
-        current_user.email_address = form.email_address.data
         current_user.update(str(id), form.first_name.data, form.last_name.data, form.email_address.data, form.password.data)
         flash('Your changes have been saved', 'success')
         return redirect(url_for('get_user', id=str(current_user.id)))
