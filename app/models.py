@@ -74,9 +74,40 @@ class User(UserMixin):
                     setattr(user, k, v)
                 return user
 
-    def update(self, id):
+    def update(self, id, first_name, last_name, email_address, password):
         """Update a user."""
-        pass
+        url = '{0}/users/{1}'.format(base_url, str(id))
+
+        updated_user = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "email_address": email_address,
+            "password": password,
+            "children": []
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.put(url, data=json.dumps(updated_user), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
+                            mimetype='application/json',
+                            status=408)
+        else:
+            if response.status_code != 200:
+                return Response(response=json.dumps({"message": "Failed to update user"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                user_dict = json.loads(response.text)
+                user = self
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
+                return user
 
     def delete(self, id):
         """Delete a user."""
