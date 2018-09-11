@@ -3,7 +3,7 @@ from wtforms import BooleanField, DateField, PasswordField, StringField
 from wtforms.validators import Email, EqualTo, InputRequired, Length
 
 
-class SignUpForm(FlaskForm):
+class UserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
@@ -17,13 +17,6 @@ class LogInForm(FlaskForm):
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()])
     password = PasswordField('Password', validators=[InputRequired(message="Password is required")])
     remember_me = BooleanField('Remember me')
-
-
-class EditUserForm(FlaskForm):
-    first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
-    last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
-    email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
-                                description="We'll never share your email with anyone else.")
 
 
 class RegisterChildForm(FlaskForm):
