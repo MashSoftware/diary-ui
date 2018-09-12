@@ -2,6 +2,7 @@ import json
 
 import requests
 from flask import Response
+from werkzeug.exceptions import RequestTimeout
 
 from app import app, login
 from flask_login import UserMixin
@@ -32,9 +33,7 @@ class User(UserMixin):
         try:
             response = requests.post(url, data=json.dumps(new_user), headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
-            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
-                            mimetype='application/json',
-                            status=408)
+            raise RequestTimeout()
         else:
             if response.status_code != 201:
                 return Response(response=json.dumps({"message": "Failed to create user"}, separators=(',', ':')),
@@ -59,9 +58,7 @@ class User(UserMixin):
         try:
             response = requests.get(url, headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
-            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
-                            mimetype='application/json',
-                            status=408)
+            raise RequestTimeout()
         else:
             if response.status_code != 200:
                 return Response(response=json.dumps({"message": "Failed to retrieve user"}, separators=(',', ':')),
@@ -94,9 +91,7 @@ class User(UserMixin):
         try:
             response = requests.put(url, data=json.dumps(updated_user), headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
-            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
-                            mimetype='application/json',
-                            status=408)
+            raise RequestTimeout()
         else:
             if response.status_code != 200:
                 return Response(response=json.dumps({"message": "Failed to update user"}, separators=(',', ':')),
@@ -130,9 +125,7 @@ class User(UserMixin):
         try:
             response = requests.post(url, data=json.dumps(credentials), headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
-            return Response(response=json.dumps({"message": "Request Timeout"}, separators=(',', ':')),
-                            mimetype='application/json',
-                            status=408)
+            raise RequestTimeout()
         else:
             if response.status_code == 401:
                 return None
