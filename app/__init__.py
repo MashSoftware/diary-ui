@@ -6,5 +6,6 @@ app = Flask(__name__)
 app.config.from_object(Config)
 login = LoginManager(app)
 login.login_view = 'login'
+login.login_message_category = 'info'
 
 from app import routes, models, errors
