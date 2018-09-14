@@ -5,7 +5,7 @@
         {% if current_user.is_anonymous %}
         <p class="lead">Hello stranger</p>
         {% else %}
-        <p class="lead">Welcome back {{ current_user.first_name }}</p>
+        <p class="lead">Hello {{ current_user.first_name }}</p>
         {% endif %}
     </div>
 </div>
