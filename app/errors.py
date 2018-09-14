@@ -6,4 +6,4 @@ from app import app
 
 @app.errorhandler(HTTPException)
 def forbidden(error):
-    return render_template('error.html', title='Error', error=error), error.code
+    return render_template('error.html', title='Oops!', error=error), error.code
