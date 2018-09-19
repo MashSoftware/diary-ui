@@ -85,6 +85,9 @@ def edit_user(id):
 @app.route("/users/<uuid:id>/delete", methods=['GET'])
 @login_required
 def delete_user(id):
+    if str(id) != current_user.id:
+        raise Forbidden()
+
     user = User()
     logout_user()
     if user.delete(id) is True:
