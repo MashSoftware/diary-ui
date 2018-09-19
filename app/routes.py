@@ -86,8 +86,8 @@ def edit_user(id):
 @login_required
 def delete_user(id):
     user = User()
+    logout_user()
     if user.delete(id) is True:
-        logout_user()
         flash('Your account has been permanently deleted.', 'success')
         return redirect(url_for('index'))
 
