@@ -52,7 +52,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('You have Logged out.', 'success')
+    flash('You have logged out.', 'success')
     return redirect(url_for('index'))
 
 
@@ -80,6 +80,16 @@ def edit_user(id):
         form.last_name.data = current_user.last_name
         form.email_address.data = current_user.email_address
     return render_template('edit_user.html', title='Update profile', form=form)
+
+
+@app.route("/users/<uuid:id>/delete", methods=['GET'])
+@login_required
+def delete_user(id):
+    user = User()
+    if user.delete(id) is True:
+        logout_user()
+        flash('Your account has been permanently deleted.', 'success')
+        return redirect(url_for('index'))
 
 
 @app.route('/register-child', methods=['GET', 'POST'])

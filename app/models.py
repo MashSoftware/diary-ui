@@ -106,7 +106,20 @@ class User(UserMixin):
 
     def delete(self, id):
         """Delete a user."""
-        pass
+        url = '{0}/users/{1}'.format(base_url, str(id))
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.delete(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 204:
+                return Response(response=json.dumps({"message": "Failed to delete user"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                return True
 
     def login(self, email_address, password):
         """Log in a user"""
