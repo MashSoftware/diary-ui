@@ -22,7 +22,7 @@ def signup():
     if form.validate_on_submit():
         user = User()
         new_user = user.create(form.password.data, form.first_name.data, form.last_name.data, form.email_address.data)
-        flash('{0} {1} signed up!'.format(new_user.first_name, new_user.last_name), 'success')
+        flash('Thanks for signing up!', 'success')
         return redirect(url_for('get_user', id=str(new_user.id)))
 
     return render_template('sign_up.html', title='Create a new account', form=form)
@@ -97,7 +97,7 @@ def delete_user(id):
 
 @app.route('/register-child', methods=['GET', 'POST'])
 @login_required
-def create_child():
+def register_child():
     form = RegisterChildForm()
     if form.validate_on_submit():
         flash('Registered child!', 'success')
