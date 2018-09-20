@@ -42,10 +42,11 @@
 </div>
 <div class="row">
     <div class="col">
+        <a class="btn btn-success btn-lg" href="{{ url_for('register_child') }}" role="button"><i class="fas fa-child fa-lg"></i> Register a child</a>
         <a class="btn btn-primary btn-lg" href="{{ url_for('edit_user', id=current_user.id) }}" role="button"><i class="fas fa-edit fa-lg"></i>
-            Update</a>
+            Update profile</a>
         <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash fa-lg"></i>
-            Delete</button>
+            Delete account</button>
     </div>
 </div>
 
@@ -67,9 +68,9 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
                 <a class="btn btn-danger btn-lg" href="{{ url_for('delete_user', id=current_user.id) }}" role="button"><i
-                        class="fas fa-trash fa-lg"></i> Delete</a>
+                        class="fas fa-trash fa-lg"></i> I understand, please delete my account</a>
             </div>
         </div>
     </div>
