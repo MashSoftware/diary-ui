@@ -16,7 +16,7 @@ class User(UserMixin):
 
     def create(self, password, first_name, last_name, email_address):
         """Create a new user."""
-        url = '{0}/users'.format(base_url)
+        url = '{0}/{1}/users'.format(base_url, version)
 
         new_user = {
             "password": password,
@@ -52,7 +52,7 @@ class User(UserMixin):
 
     def get(self, id):
         """Get a user."""
-        url = '{0}/users/{1}'.format(base_url, str(id))
+        url = '{0}/{1}/users/{2}'.format(base_url, version, str(id))
         headers = {"Accept": "application/json"}
 
         try:
@@ -73,7 +73,7 @@ class User(UserMixin):
 
     def update(self, id, first_name, last_name, email_address, password):
         """Update a user."""
-        url = '{0}/users/{1}'.format(base_url, str(id))
+        url = '{0}/{1}/users/{2}'.format(base_url, version, str(id))
 
         updated_user = {
             "first_name": first_name,
@@ -106,7 +106,7 @@ class User(UserMixin):
 
     def delete(self, id):
         """Delete a user."""
-        url = '{0}/users/{1}'.format(base_url, str(id))
+        url = '{0}/{1}/users/{2}'.format(base_url, version, str(id))
         headers = {"Accept": "application/json"}
 
         try:
@@ -123,7 +123,7 @@ class User(UserMixin):
 
     def login(self, email_address, password):
         """Log in a user"""
-        url = '{0}/login'.format(base_url)
+        url = '{0}/{1}/login'.format(base_url, version)
 
         credentials = {
             "email_address": email_address,
