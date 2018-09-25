@@ -16,7 +16,7 @@
             <dd>{{ current_user.login_at }}</dd>
 
             {% if current_user.updated_at %}
-            <dt>Last updated profile</dt>
+            <dt>Last updated</dt>
             <dd>{{ current_user.updated_at }}</dd>
             {% endif %}
         </dl>
@@ -52,8 +52,8 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-danger btn-lg" href="{{ url_for('delete_user', id=current_user.id) }}" role="button"><i
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" href="{{ url_for('delete_user', id=current_user.id) }}" role="button"><i
                         class="fas fa-trash fa-lg"></i> Delete</a>
             </div>
         </div>
