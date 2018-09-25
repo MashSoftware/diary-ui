@@ -3,9 +3,16 @@
 {% if current_user.children %}
 <div class="row">
     <div class="col">
-        {% for child in current_user.children %}
-        <p>{{ child }}</p>
-        {% endfor %}
+        <div class="card-deck">
+            {% for child in children %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="#">{{ child.first_name }} {{ child.last_name }}</a></h5>
+                    <p class="card-text">Date of birth: {{ child.date_of_birth }}</p>
+                </div>
+            </div>
+            {% endfor %} 
+        </div>
         <hr>
     </div>
 </div>
