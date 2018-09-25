@@ -29,7 +29,7 @@ class ProfileForm(FlaskForm):
 class PasswordForm(FlaskForm):
     current_password = PasswordField('Current password', validators=[InputRequired(message="Current password is required")])
     new_password = PasswordField('New password', validators=[InputRequired(message="New password is required"), Length(min=8, max=72)],
-                             description="Must be between 8 and 72 characters long.")
+                                 description="Must be between 8 and 72 characters long.")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(message="Please confirm your password"), EqualTo('password', message="Passwords must match.")])
 
 
