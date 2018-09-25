@@ -184,17 +184,27 @@ class Child(object):
                                 mimetype='application/json',
                                 status=response.status_code)
             else:
-                child_dict = json.loads(response.text)
-                child = self
-                for k, v in child_dict.items():
-                    setattr(child, k, v)
-                return child
+                return json.loads(response.text)
 
     def search(self, query):
         pass
 
-    def get(self, child_id):
-        pass
+    def get(self, id):
+        """Get a child."""
+        url = '{0}/{1}/children/{2}'.format(base_url, version, str(id))
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.get(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 200:
+                return Response(response=json.dumps({"message": "Failed to retrieve user"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                return json.loads(response.text)
 
     def update(self, child_id):
         pass
