@@ -158,8 +158,37 @@ def load_user(id):
 
 class Child(object):
 
-    def create(self, child):
-        pass
+    def create(self, first_name, last_name, date_of_birth, users):
+        """Create a new child."""
+        url = '{0}/{1}/children'.format(base_url, version)
+
+        new_child = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "date_of_birth": date_of_birth,
+            "users": users
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.post(url, data=json.dumps(new_child), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 201:
+                return Response(response=json.dumps({"message": "Failed to create child"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                child_dict = json.loads(response.text)
+                child = self
+                for k, v in child_dict.items():
+                    setattr(child, k, v)
+                return child
 
     def search(self, query):
         pass
