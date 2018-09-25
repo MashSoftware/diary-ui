@@ -3,9 +3,15 @@
 <div class="row">
     <div class="col">
         {% if current_user.is_anonymous %}
-        <p class="lead">Hello stranger</p>
-        {% else %}
-        <p class="lead">Hello {{ current_user.first_name }}</p>
+        <div class="jumbotron">
+            <h1 class="display-4">Childcare Diary</h1>
+            <p class="lead">Childcare Diary allows you to keep track of your child's daily routine, including feeding, changing, sleep and more.</p>
+            <hr class="my-4">
+            <p class="lead">Sign up for a <strong>free</strong> account today!</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('signup') }}" role="button"><i class="fas fa-user-plus fa-lg"></i> Sign up</a><br><br>
+            <p class="lead">Aleady a member?</p>
+            <a class="btn btn-secondary btn-lg" href="{{ url_for('login') }}" role="button"><i class="fas fa-sign-in-alt fa-lg"></i> Log in</a>
+        </div>
         {% endif %}
     </div>
 </div>
