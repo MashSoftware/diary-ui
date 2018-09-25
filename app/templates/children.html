@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+{% if current_user.children %}
 <div class="row">
     <div class="col">
-        <a class="btn btn-success btn-lg" href="{{ url_for('register_child') }}" role="button"><i class="fas fa-child fa-lg"></i> Register a child</a>
+        {% for child in current_user.children %}
+        <p>{{ child }}</p>
+        {% endfor %}
+        <hr>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col">
+        <a class="btn btn-success" href="{{ url_for('register_child') }}" role="button"><i class="fas fa-child fa-lg"></i> Register a child</a>
     </div>
 </div>
 {% endblock %}
