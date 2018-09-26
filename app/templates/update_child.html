@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.first_name.label }}
+                {% if form.first_name.errors %}
+                {{ form.first_name(class="form-control is-invalid") }}
+                {% else %}
+                {{ form.first_name(class="form-control") }}
+                {% endif %}
+                {% for error in form.first_name.errors %}
+                <div class="invalid-feedback">{{error}}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.label }}
+                {% if form.last_name.errors %}
+                {{ form.last_name(class="form-control is-invalid") }}
+                {% else %}
+                {{ form.last_name(class="form-control") }}
+                {% endif %}
+                {% for error in form.last_name.errors %}
+                <div class="invalid-feedback">{{error}}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.date_of_birth.label }}
+                {% if form.date_of_birth.errors %}
+                {{ form.date_of_birth(class="form-control is-invalid", type="date") }}
+                {% else %}
+                {{ form.date_of_birth(class="form-control", type="date") }}
+                {% endif %}
+                {% for error in form.date_of_birth.errors %}
+                <div class="invalid-feedback">{{error}}</div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary" type="submit"><i class="fas fa-edit fa-lg"></i> Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
