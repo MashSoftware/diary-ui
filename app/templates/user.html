@@ -25,12 +25,12 @@
 <div class="row">
     <div class="col">
         <hr>
-        <a class="btn btn-primary" href="{{ url_for('edit_user', id=current_user.id) }}" role="button"><i class="fas fa-edit fa-lg"></i>
-            Update profile</a>
-        <a class="btn btn-primary" href="{{ url_for('change_password', id=current_user.id) }}" role="button"><i class="fas fa-key fa-lg"></i>
-            Change password</a>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash fa-lg"></i>
-            Delete account</button>
+        <p><a class="btn btn-primary" href="{{ url_for('update_user', id=current_user.id) }}" role="button"><i class="fas fa-edit fa-lg"></i>
+            Update profile</a></p>
+        <p><a class="btn btn-primary" href="{{ url_for('change_password', id=current_user.id) }}" role="button"><i class="fas fa-key fa-lg"></i>
+            Change password</a></p>
+        <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash fa-lg"></i>
+            Delete account</button></p>
     </div>
 </div>
 
@@ -48,7 +48,7 @@
                 <p>This will also delete:</p>
                 <ul>
                     <li>Any children that are not currently associated with another user.</li>
-                    <li>Any entries relating to those children.</li>
+                    <li>All diary entries relating to those children.</li>
                 </ul>
             </div>
             <div class="modal-footer">
