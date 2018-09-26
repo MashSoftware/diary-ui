@@ -7,7 +7,7 @@
             {% for child in children %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><a href="#">{{ child.first_name }} {{ child.last_name }}</a></h5>
+                    <h5 class="card-title"><a href="{{ url_for('get_child', id=child.id) }}">{{ child.first_name }} {{ child.last_name }}</a></h5>
                     <p class="card-text">Date of birth: {{ child.date_of_birth }}</p>
                 </div>
             </div>
