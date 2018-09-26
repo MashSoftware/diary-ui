@@ -209,8 +209,22 @@ class Child(object):
     def update(self, child_id):
         pass
 
-    def delete(self, child_id):
-        pass
+    def delete(self, id):
+        """Delete a child."""
+        url = '{0}/{1}/children/{2}'.format(base_url, version, str(id))
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.delete(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 204:
+                return Response(response=json.dumps({"message": "Failed to delete child"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                return True
 
 
 class Event(object):
