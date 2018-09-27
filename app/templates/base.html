@@ -36,27 +36,27 @@
                 {% if current_user.is_anonymous %}
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('signup') }}"><i class="fas fa-user-plus fa-lg"></i> Sign up</a>
+                        <a class="nav-link" href="{{ url_for('signup') }}"><i class="fas fa-user-plus fa-lg fa-fw"></i> Sign up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt fa-lg"></i> Log in</a>
+                        <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt fa-lg fa-fw"></i> Log in</a>
                     </li>
                 </ul>
                 {% else %}
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('view_diary') }}"><i class="fas fa-book fa-lg"></i> Diary</a>
+                        <a class="nav-link" href="{{ url_for('view_diary') }}"><i class="fas fa-book fa-lg fa-fw"></i> Diary</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('view_children') }}"><i class="fas fa-child fa-lg"></i> Children</a>
+                        <a class="nav-link" href="{{ url_for('view_children') }}"><i class="fas fa-child fa-lg fa-fw"></i> Children</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('get_user', id=current_user.id) }}"><i class="fas fa-user fa-lg"></i> {{current_user.first_name}}</a>
+                        <a class="nav-link" href="{{ url_for('get_user', id=current_user.id) }}"><i class="fas fa-user fa-lg fa-fw"></i> {{current_user.first_name}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt fa-lg"></i> Log out</a>
+                        <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt fa-lg fa-fw"></i> Log out</a>
                     </li>
                 </ul>
                 {% endif %}
