@@ -41,3 +41,7 @@ class ChildForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
     date_of_birth = DateField('Date of birth', validators=[InputRequired(message="Date of birth is required")])
+
+
+class UserSearchForm(FlaskForm):
+    email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()])

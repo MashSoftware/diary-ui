@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.email_address.label }}
+                {% if form.email_address.errors %}
+                {{ form.email_address(class="form-control is-invalid", type="email") }}
+                {% else %}
+                {{ form.email_address(class="form-control", type="email") }}
+                {% endif %}
+                {% for error in form.email_address.errors %}
+                <div class="invalid-feedback">{{error}}</div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-lg fa-fw"></i> Search</button>
+        </form>
+        {% if user %}
+        <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email_address }}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
