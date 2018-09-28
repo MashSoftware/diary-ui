@@ -48,7 +48,24 @@ class User(UserMixin):
 
     def search(self, email_address):
         """Search for user by email address."""
-        pass
+        url = '{0}/{1}/users?email_address={2}'.format(base_url, version, email_address)
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.get(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 200:
+                return Response(response=json.dumps({"message": "Failed to search for user"}, separators=(',', ':')),
+                                mimetype='application/json',
+                                status=response.status_code)
+            else:
+                user_dict = json.loads(response.text)
+                user = self
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
+                return user
 
     def get(self, id):
         """Get a user."""
@@ -71,16 +88,14 @@ class User(UserMixin):
                     setattr(user, k, v)
                 return user
 
-    def update(self, id, first_name, last_name, email_address, password):
+    def update_profile(self, id, first_name, last_name, email_address):
         """Update a user."""
-        url = '{0}/{1}/users/{2}'.format(base_url, version, str(id))
+        url = '{0}/{1}/users/{2}/profile'.format(base_url, version, str(id))
 
-        updated_user = {
+        updated_profile = {
             "first_name": first_name,
             "last_name": last_name,
-            "email_address": email_address,
-            "password": password,
-            "children": []
+            "email_address": email_address
         }
 
         headers = {
@@ -89,14 +104,42 @@ class User(UserMixin):
         }
 
         try:
-            response = requests.put(url, data=json.dumps(updated_user), headers=headers, timeout=timeout)
+            response = requests.put(url, data=json.dumps(updated_profile), headers=headers, timeout=timeout)
         except requests.exceptions.Timeout:
             raise RequestTimeout()
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to update user"}, separators=(',', ':')),
+                return Response(response=json.dumps({"message": "Failed to update user profile"}, separators=(',', ':')),
                                 mimetype='application/json',
                                 status=response.status_code)
+            else:
+                user_dict = json.loads(response.text)
+                user = self
+                for k, v in user_dict.items():
+                    setattr(user, k, v)
+                return user
+
+    def change_password(self, id, current_password, new_password):
+        """Update a user."""
+        url = '{0}/{1}/users/{2}/password'.format(base_url, version, str(id))
+
+        updated_profile = {
+            "current_password": current_password,
+            "new_password": new_password
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.put(url, data=json.dumps(updated_profile), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code == 401:
+                return None
             else:
                 user_dict = json.loads(response.text)
                 user = self

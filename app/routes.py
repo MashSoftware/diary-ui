@@ -3,8 +3,7 @@ from werkzeug.exceptions import Forbidden
 from werkzeug.urls import url_parse
 
 from app import app
-from app.forms import (LogInForm, PasswordForm, ProfileForm, RegisterChildForm,
-                       UserForm)
+from app.forms import ChildForm, LogInForm, PasswordForm, ProfileForm, UserForm
 from app.models import Child, User
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -21,10 +20,10 @@ def signup():
 
     form = UserForm()
     if form.validate_on_submit():
-        user = User()
-        new_user = user.create(form.password.data, form.first_name.data, form.last_name.data, form.email_address.data)
+        user = User().create(form.password.data, form.first_name.data.title(),
+                             form.last_name.data.title(), form.email_address.data)
         flash('Thanks for signing up!', 'success')
-        return redirect(url_for('get_user', id=str(new_user.id)))
+        return redirect(url_for('get_user', id=str(user.id)))
 
     return render_template('sign_up.html', title='Create a new account', form=form)
 
@@ -36,12 +35,11 @@ def login():
 
     form = LogInForm()
     if form.validate_on_submit():
-        user = User()
-        authenticated_user = user.login(form.email_address.data, form.password.data)
-        if authenticated_user is None:
+        user = User().login(form.email_address.data, form.password.data)
+        if user is None:
             flash('Invalid email address or password.', 'danger')
             return redirect(url_for('login'))
-        login_user(authenticated_user, remember=form.remember_me.data)
+        login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('view_diary')
@@ -65,15 +63,16 @@ def get_user(id):
     return render_template('user.html', title='My profile')
 
 
-@app.route("/users/<uuid:id>/edit", methods=['GET', 'POST'])
+@app.route("/users/<uuid:id>/update", methods=['GET', 'POST'])
 @login_required
-def edit_user(id):
+def update_profile(id):
     if str(id) != current_user.id:
         raise Forbidden()
 
     form = ProfileForm()
     if form.validate_on_submit():
-        current_user.update(str(id), form.first_name.data, form.last_name.data, form.email_address.data)
+        current_user.update_profile(str(id), form.first_name.data.title(),
+                                    form.last_name.data.title(), form.email_address.data)
         flash('Your profile has been updated', 'success')
         return redirect(url_for('get_user', id=str(current_user.id)))
     elif request.method == 'GET':
@@ -91,7 +90,10 @@ def change_password(id):
 
     form = PasswordForm()
     if form.validate_on_submit():
-        current_user.update(id=str(id), password=form.new_password.data)
+        user = User().change_password(str(id), form.current_password.data, form.new_password.data)
+        if user is None:
+            flash('Invalid password.', 'danger')
+            return redirect(url_for('change_password', id=id))
         flash('Your password has been changed', 'success')
         return redirect(url_for('get_user', id=str(current_user.id)))
 
@@ -104,9 +106,8 @@ def delete_user(id):
     if str(id) != current_user.id:
         raise Forbidden()
 
-    user = User()
     logout_user()
-    if user.delete(id) is True:
+    if User().delete(id) is True:
         flash('Your account has been permanently deleted.', 'success')
         return redirect(url_for('index'))
 
@@ -114,11 +115,11 @@ def delete_user(id):
 @app.route('/register-child', methods=['GET', 'POST'])
 @login_required
 def register_child():
-    form = RegisterChildForm()
+    form = ChildForm()
     if form.validate_on_submit():
-        child = Child()
-        child.create(form.first_name.data, form.last_name.data, str(form.date_of_birth.data), [current_user.id])
-        flash('{0} has been registered'.format(form.first_name.data), 'success')
+        child = Child().create(form.first_name.data.title(), form.last_name.data.title(),
+                               str(form.date_of_birth.data), [current_user.id])
+        flash('{0} {1} has been registered'.format(child["first_name"], child["last_name"]), 'success')
         return redirect(url_for('view_children'))
     return render_template('register_child.html', title='Register a child', form=form)
 
@@ -126,10 +127,11 @@ def register_child():
 @app.route('/children', methods=['GET'])
 @login_required
 def view_children():
-    child = Child()
     children = []
     for id in current_user.children:
-        children.append(child.get(id))
+        # Should have API route to get array of children for a user ID
+        # One API call rather than X many
+        children.append(Child().get(id))
     return render_template('children.html', title="My children", children=children)
 
 
