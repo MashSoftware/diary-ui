@@ -3,7 +3,8 @@ from werkzeug.exceptions import Forbidden
 from werkzeug.urls import url_parse
 
 from app import app
-from app.forms import ChildForm, LogInForm, PasswordForm, ProfileForm, UserForm
+from app.forms import (ChildForm, LogInForm, PasswordForm, ProfileForm,
+                       UserForm, UserSearchForm)
 from app.models import Child, User
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -133,6 +134,59 @@ def view_children():
         # One API call rather than X many
         children.append(Child().get(id))
     return render_template('children.html', title="My children", children=children)
+
+
+@app.route('/children/<uuid:id>', methods=['GET'])
+@login_required
+def get_child(id):
+    if str(id) not in current_user.children:
+        raise Forbidden()
+
+    child = Child().get(id)
+    return render_template('child.html', title='{0} {1}'.format(child["first_name"], child["last_name"]), child=child)
+
+
+@app.route('/children/<uuid:id>/update', methods=['GET', 'POST'])
+@login_required
+def update_child(id):
+    if str(id) not in current_user.children:
+        raise Forbidden()
+
+    child = Child().get(id)
+    form = ChildForm()
+
+    if form.validate_on_submit():
+        child.update(str(id), form.first_name.data.title(), form.last_name.data.title(), form.date_of_birth.data)
+        flash('Your profile has been updated', 'success')
+        return redirect(url_for('get_user', id=str(current_user.id)))
+    elif request.method == 'GET':
+        form.first_name.data = child["first_name"]
+        form.last_name.data = child["last_name"]
+        # form.date_of_birth.data = child["date_of_birth"]
+    return render_template('update_child.html', title='Update child', form=form)
+
+
+@app.route('/children/<uuid:id>/delete', methods=['GET'])
+@login_required
+def delete_child(id):
+    if str(id) not in current_user.children:
+        raise Forbidden()
+
+    if Child().delete(id) is True:
+        flash('Child has been permanently deleted.', 'success')
+        return redirect(url_for('view_children'))
+
+
+@app.route('/children/<uuid:id>/add', methods=['GET', 'POST'])
+@login_required
+def search_user(id):
+    form = UserSearchForm()
+
+    if form.validate_on_submit():
+        user = User().search(form.email_address.data)
+        return render_template('user_search.html', title="Search for user", form=form, user=user)
+
+    return render_template('user_search.html', title="Search for user", form=form)
 
 
 @app.route('/diary', methods=['GET'])
