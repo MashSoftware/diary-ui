@@ -15,7 +15,8 @@
                 <div class="invalid-feedback">{{error}}</div>
                 {% endfor %}
             </div>
-            <button class="btn btn-primary" type="submit"><i class="fas fa-search fa-lg fa-fw"></i> Search</button>
+            <p><button class="btn btn-primary" type="submit"><i class="fas fa-search fa-lg fa-fw"></i> Search</button></p>
+            <p><a class="btn btn-secondary" href="{{ url_for('view_children') }}" role="button"><i class="fas fa-chevron-left fa-lg fa-fw"></i> Go back</a></p>
         </form>
         {% if user %}
         <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email_address }}</p>
