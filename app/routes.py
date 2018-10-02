@@ -1,6 +1,7 @@
 from flask import flash, redirect, render_template, request, url_for
 from werkzeug.exceptions import Forbidden
 from werkzeug.urls import url_parse
+from datetime import date
 
 from app import app
 from app.forms import (ChildForm, LogInForm, PasswordForm, ProfileForm,
@@ -64,7 +65,7 @@ def get_user(id):
     return render_template('user.html', title='My profile')
 
 
-@app.route("/users/<uuid:id>/update", methods=['GET', 'POST'])
+@app.route("/users/<uuid:id>/update-profile", methods=['GET', 'POST'])
 @login_required
 def update_profile(id):
     if str(id) != current_user.id:
@@ -156,13 +157,13 @@ def update_child(id):
     form = ChildForm()
 
     if form.validate_on_submit():
-        child.update(str(id), form.first_name.data.title(), form.last_name.data.title(), form.date_of_birth.data)
-        flash('Your profile has been updated', 'success')
-        return redirect(url_for('get_user', id=str(current_user.id)))
+        Child().update(str(id), form.first_name.data.title(), form.last_name.data.title(), str(form.date_of_birth.data), child["users"])
+        flash('Child has been updated', 'success')
+        return redirect(url_for('get_child', id=str(id)))
     elif request.method == 'GET':
         form.first_name.data = child["first_name"]
         form.last_name.data = child["last_name"]
-        # form.date_of_birth.data = child["date_of_birth"]
+        form.date_of_birth.data = date.fromisoformat(child["date_of_birth"])
     return render_template('update_child.html', title='Update child', form=form)
 
 
@@ -184,9 +185,9 @@ def search_user(id):
 
     if form.validate_on_submit():
         user = User().search(form.email_address.data)
-        return render_template('user_search.html', title="Search for user", form=form, user=user)
+        return render_template('user_search.html', title="Add a care giver", form=form, user=user)
 
-    return render_template('user_search.html', title="Search for user", form=form)
+    return render_template('user_search.html', title="Add a care giver", form=form)
 
 
 @app.route('/diary', methods=['GET'])
