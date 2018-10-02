@@ -1,8 +1,7 @@
 import json
 
 import requests
-from flask import Response
-from werkzeug.exceptions import RequestTimeout
+from werkzeug.exceptions import InternalServerError, RequestTimeout
 
 from app import app, login
 from flask_login import UserMixin
@@ -36,9 +35,7 @@ class User(UserMixin):
             raise RequestTimeout()
         else:
             if response.status_code != 201:
-                return Response(response=json.dumps({"message": "Failed to create user"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
                 user = self
@@ -57,9 +54,7 @@ class User(UserMixin):
             raise RequestTimeout()
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to search for user"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
                 user = self
@@ -78,9 +73,7 @@ class User(UserMixin):
             raise RequestTimeout()
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to retrieve user"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
                 user = self
@@ -109,9 +102,7 @@ class User(UserMixin):
             raise RequestTimeout()
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to update user profile"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
                 user = self
@@ -158,9 +149,7 @@ class User(UserMixin):
             raise RequestTimeout()
         else:
             if response.status_code != 204:
-                return Response(response=json.dumps({"message": "Failed to delete user"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 return True
 
@@ -223,14 +212,9 @@ class Child(object):
             raise RequestTimeout()
         else:
             if response.status_code != 201:
-                return Response(response=json.dumps({"message": "Failed to create child"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 return json.loads(response.text)
-
-    def search(self, query):
-        pass
 
     def get(self, id):
         """Get a child."""
@@ -243,14 +227,35 @@ class Child(object):
             raise RequestTimeout()
         else:
             if response.status_code != 200:
-                return Response(response=json.dumps({"message": "Failed to retrieve user"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 return json.loads(response.text)
 
-    def update(self, child_id):
-        pass
+    def update(self, id, first_name, last_name, date_of_birth, users):
+        """Update a child."""
+        url = '{0}/{1}/children/{2}'.format(base_url, version, str(id))
+
+        updated_profile = {
+            "first_name": first_name,
+            "last_name": last_name,
+            "date_of_birth": date_of_birth,
+            "users": users
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.put(url, data=json.dumps(updated_profile), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 200:
+                raise InternalServerError()
+            else:
+                return json.loads(response.text)
 
     def delete(self, id):
         """Delete a child."""
@@ -263,9 +268,7 @@ class Child(object):
             raise RequestTimeout()
         else:
             if response.status_code != 204:
-                return Response(response=json.dumps({"message": "Failed to delete child"}, separators=(',', ':')),
-                                mimetype='application/json',
-                                status=response.status_code)
+                raise InternalServerError()
             else:
                 return True
 
