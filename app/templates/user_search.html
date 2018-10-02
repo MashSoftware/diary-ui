@@ -18,9 +18,42 @@
             <p><button class="btn btn-primary" type="submit"><i class="fas fa-search fa-lg fa-fw"></i> Search</button></p>
             <p><a class="btn btn-secondary" href="{{ url_for('view_children') }}" role="button"><i class="fas fa-chevron-left fa-lg fa-fw"></i> Go back</a></p>
         </form>
-        {% if user %}
-        <p>{{ user.first_name }} {{ user.last_name }} - {{ user.email_address }}</p>
-        {% endif %}
     </div>
 </div>
+{% if user %}
+<div class="row">
+    <div class="col">
+        <hr>
+        <h2>Result</h2>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal"><i class="fas fa-user-plus fa-lg fa-fw"></i> Add {{ user.first_name }} {{ user.last_name }}</button>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>You are giving {{ user.first_name }} {{ user.last_name }} permission to:</p>
+                    <ul>
+                        <li>View existing diary entries for {{ child.first_name }} {{ child.last_name }}</li>
+                        <li>Add new diary entries for {{ child.first_name }} {{ child.last_name }}</li>
+                        <li>Add other care givers to {{ child.first_name }} {{ child.last_name }}</li>
+                        <li>Update {{ child.first_name }} {{ child.last_name }}'s details</li>
+                        <li>Delete {{ child.first_name }} {{ child.last_name }}</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-chevron-left fa-lg fa-fw"></i> Cancel</button>
+                    <a class="btn btn-success" href="#" role="button"><i class="fas fa-user-plus fa-lg fa-fw"></i> Add</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
