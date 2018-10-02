@@ -53,7 +53,9 @@ class User(UserMixin):
         except requests.exceptions.Timeout:
             raise RequestTimeout()
         else:
-            if response.status_code != 200:
+            if response.status_code == 404:
+                return None
+            elif response.status_code != 200:
                 raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
