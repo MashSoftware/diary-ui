@@ -182,12 +182,13 @@ def delete_child(id):
 @login_required
 def search_user(id):
     form = UserSearchForm()
+    child = Child().get(id)
 
     if form.validate_on_submit():
         user = User().search(form.email_address.data)
-        return render_template('user_search.html', title="Add a care giver", form=form, user=user)
+        return render_template('user_search.html', title="Add a care giver to {0} {1}".format(child["first_name"], child["last_name"]), form=form, child=child, user=user)
 
-    return render_template('user_search.html', title="Add a care giver", form=form)
+    return render_template('user_search.html', title="Add a care giver to {0} {1}".format(child["first_name"], child["last_name"]), form=form, child=child)
 
 
 @app.route('/diary', methods=['GET'])
