@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, DateField, PasswordField, StringField
-from wtforms.validators import Email, EqualTo, InputRequired, Length
+from wtforms import (BooleanField, DateField, DateTimeField, DecimalField,
+                     PasswordField, RadioField, SelectField, StringField,
+                     TextAreaField)
+from wtforms.validators import Email, EqualTo, InputRequired, Length, Optional
 
 
 class UserForm(FlaskForm):
@@ -45,3 +49,13 @@ class ChildForm(FlaskForm):
 
 class UserSearchForm(FlaskForm):
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()])
+
+
+class EventForm(FlaskForm):
+    type = SelectField('Type', choices=[('sleep', 'Sleep'), ('feed', 'Feed'), ('change', 'Change')])
+    started_at = DateTimeField('Started at', format='%d/%m/%Y %H:%M:%S', default=datetime.utcnow)
+    ended_at = DateTimeField('Ended at', format='%d/%m/%Y %H:%M:%S')
+    amount = DecimalField('Amount', validators=[Optional()])
+    unit = StringField('Unit', validators=[Optional()])
+    side = RadioField('Side', choices=[('left', 'Left'), ('right', 'Right')])
+    description = TextAreaField('Description', validators=[Optional()])
