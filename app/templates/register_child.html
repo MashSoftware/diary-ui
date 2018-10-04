@@ -16,6 +16,17 @@
                 {% endfor %}
             </div>
             <div class="form-group">
+                {{ form.middle_name.label }} <i>(optional)</i>
+                {% if form.middle_name.errors %}
+                {{ form.middle_name(class="form-control is-invalid") }}
+                {% else %}
+                {{ form.middle_name(class="form-control") }}
+                {% endif %}
+                {% for error in form.middle_name.errors %}
+                <div class="invalid-feedback">{{error}}</div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
                 {{ form.last_name.label }}
                 {% if form.last_name.errors %}
                 {{ form.last_name(class="form-control is-invalid") }}
