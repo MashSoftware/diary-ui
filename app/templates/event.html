@@ -27,7 +27,7 @@
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.ended_at.label }}
+                {{ form.ended_at.label }} <i>(optional)</i>
                 {% if form.ended_at.errors %}
                 {{ form.ended_at(class="form-control is-invalid", type="datetime-local") }}
                 {% else %}
@@ -38,7 +38,7 @@
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.amount.label }}
+                {{ form.amount.label }} <i>(optional)</i>
                 {% if form.amount.errors %}
                 {{ form.amount(class="form-control is-invalid") }}
                 {% else %}
@@ -49,7 +49,7 @@
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.unit.label }}
+                {{ form.unit.label }} <i>(optional)</i>
                 {% if form.unit.errors %}
                 {{ form.unit(class="form-control is-invalid") }}
                 {% else %}
@@ -60,7 +60,7 @@
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.side.label }}
+                {{ form.side.label }} <i>(optional)</i>
                 {% for subfield in form.side %}
                 <div class="form-check">
                     {{ subfield(class="form-check-input") }}
@@ -69,13 +69,13 @@
             {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.description.label }}
-                {% if form.description.errors %}
-                {{ form.description(class="form-control is-invalid") }}
+                {{ form.notes.label }} <i>(optional)</i>
+                {% if form.notes.errors %}
+                {{ form.notes(class="form-control is-invalid") }}
                 {% else %}
-                {{ form.description(class="form-control") }}
+                {{ form.notes(class="form-control") }}
                 {% endif %}
-                {% for error in form.description.errors %}
+                {% for error in form.notes.errors %}
                 <div class="invalid-feedback">{{error}}</div>
                 {% endfor %}
             </div>
