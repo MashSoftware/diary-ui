@@ -280,14 +280,28 @@ class Event(object):
     def create(self, event):
         pass
 
-    def search(self, query):
+    def get(self, id):
         pass
 
-    def get(self, event_id):
+    def get_for_child(self, child_id):
+        """Get events for child."""
+        url = '{0}/{1}/events?child_id={2}'.format(base_url, version, child_id)
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.get(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code == 404:
+                return None
+            elif response.status_code != 200:
+                raise InternalServerError()
+            else:
+                return json.loads(response.text)
+
+    def update(self, id):
         pass
 
-    def update(self, event_id):
-        pass
-
-    def delete(self, event_id):
+    def delete(self, id):
         pass
