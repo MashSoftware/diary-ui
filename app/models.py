@@ -133,6 +133,9 @@ class User(UserMixin):
         else:
             if response.status_code == 401:
                 return None
+            # Need to handle 400's here too...
+            elif response.status_code != 200:
+                raise InternalServerError()
             else:
                 user_dict = json.loads(response.text)
                 user = self
