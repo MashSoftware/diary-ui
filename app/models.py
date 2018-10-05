@@ -157,7 +157,7 @@ class User(UserMixin):
 
     def login(self, email_address, password):
         """Log in a user"""
-        url = '{0}/{1}/login'.format(base_url, version)
+        url = '{0}/{1}/auth/login'.format(base_url, version)
 
         credentials = {
             "email_address": email_address,
