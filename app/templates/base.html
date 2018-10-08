@@ -77,6 +77,16 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
+        {% if form and form.errors %}
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">There is a problem</h4>
+            {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+            <p class="mb-1"><a href="#{{field}}" class="alert-link">{{ error }}</a></p>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
         {% if title %}
         <div class="row">
             <div class="col">
