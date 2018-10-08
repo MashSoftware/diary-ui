@@ -13,7 +13,7 @@ class UserForm(FlaskForm):
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
                                 description="We'll never share your email with anyone else.")
-    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72)],
+    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters long")],
                              description="Must be between 8 and 72 characters long.")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(
         message="Please confirm your password"), EqualTo('password', message="Passwords must match.")])
@@ -36,10 +36,14 @@ class ProfileForm(FlaskForm):
 class PasswordForm(FlaskForm):
     current_password = PasswordField('Current password', validators=[
                                      InputRequired(message="Current password is required")])
-    new_password = PasswordField('New password', validators=[InputRequired(message="New password is required"), Length(min=8, max=72)],
+    new_password = PasswordField('New password', validators=[InputRequired(message="New password is required"), Length(min=8, max=72, message="New password must be between 8 and 72 characters long")],
                                  description="Must be between 8 and 72 characters long.")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(
         message="Please confirm your password"), EqualTo('new_password', message="Passwords must match.")])
+
+    def validate_new_password(self, new_password):
+        if new_password.data == self.current_password.data:
+            raise ValidationError('New password must be different to current password')
 
 
 class ChildForm(FlaskForm):
@@ -63,7 +67,8 @@ class EventForm(FlaskForm):
                                         ('change', 'Change')], validators=[InputRequired(message="Type is required")])
     started_at = DateTimeField('Started at', format='%d/%m/%Y %H:%M:%S',
                                validators=[InputRequired(message="Started at is required")], default=datetime.utcnow)
-    ended_at = DateTimeField('Ended at', format='%d/%m/%Y %H:%M:%S', validators=[Optional()])
+    ended_at = DateTimeField('Ended at', format='%d/%m/%Y %H:%M:%S',
+                             validators=[Optional()], description="Leave blank if ongoing")
     amount = DecimalField('Amount', validators=[Optional()])
     unit = StringField('Unit', validators=[Optional()])
     side = RadioField('Side', choices=[('left', 'Left'), ('right', 'Right')], validators=[Optional()])
