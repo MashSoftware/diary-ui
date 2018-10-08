@@ -7,6 +7,8 @@ from wtforms import (BooleanField, DateField, DateTimeField, DecimalField,
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
                                 Optional, ValidationError)
 
+from app.models import User
+
 
 class UserForm(FlaskForm):
     first_name = StringField('First name', validators=[InputRequired(message="First name is required")])
@@ -17,6 +19,10 @@ class UserForm(FlaskForm):
                              description="Must be between 8 and 72 characters long.")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(
         message="Please confirm your password"), EqualTo('password', message="Passwords must match.")])
+
+    def validate_email_address(self, email_address):
+        if User().search(email_address.data):
+            raise ValidationError('Email address is already signed up')
 
 
 class LogInForm(FlaskForm):
@@ -31,6 +37,10 @@ class ProfileForm(FlaskForm):
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
                                 description="We'll never share your email with anyone else.")
+
+    def validate_email_address(self, email_address):
+        if User().search(email_address.data):
+            raise ValidationError('Email address is already signed up')
 
 
 class PasswordForm(FlaskForm):
