@@ -15,10 +15,10 @@ class UserForm(FlaskForm):
     last_name = StringField('Last name', validators=[InputRequired(message="Last name is required")])
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
                                 description="We'll never share your email with anyone else.")
-    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters long")],
-                             description="Must be between 8 and 72 characters long.")
+    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters")],
+                             description="Must be between 8 and 72 characters.")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(
-        message="Please confirm your password"), EqualTo('password', message="Passwords must match.")])
+        message="Confirm your password"), EqualTo('password', message="Passwords must match.")])
 
     def validate_email_address(self, email_address):
         if User().search(email_address.data):
@@ -28,8 +28,8 @@ class UserForm(FlaskForm):
 class LogInForm(FlaskForm):
     email_address = StringField('Email address', validators=[
                                 InputRequired(message="Email address is required"), Email()])
-    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters long")],
-                             description="Must be between 8 and 72 characters long.")
+    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters")],
+                             description="Must be between 8 and 72 characters")
     remember_me = BooleanField('Remember me')
 
 
@@ -39,18 +39,18 @@ class ProfileForm(FlaskForm):
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
                                 description="We'll never share your email with anyone else.")
 
-    def validate_email_address(self, email_address):
-        if User().search(email_address.data):
-            raise ValidationError('Email address is already in use')
+    # def validate_email_address(self, email_address):
+    #     if User().search(email_address.data):
+    #         raise ValidationError('Email address is already in use')
 
 
 class PasswordForm(FlaskForm):
     current_password = PasswordField('Current password', validators=[
-                                     InputRequired(message="Current password is required"), Length(min=8, max=72, message="Current password must be between 8 and 72 characters long")])
-    new_password = PasswordField('New password', validators=[InputRequired(message="New password is required"), Length(min=8, max=72, message="New password must be between 8 and 72 characters long")],
-                                 description="Must be between 8 and 72 characters long.")
+                                     InputRequired(message="Current password is required"), Length(min=8, max=72, message="Current password must be between 8 and 72 characters")])
+    new_password = PasswordField('New password', validators=[InputRequired(message="New password is required"), Length(min=8, max=72, message="New password must be between 8 and 72 characters")],
+                                 description="Must be between 8 and 72 characters")
     confirm_password = PasswordField('Confirm password', validators=[InputRequired(
-        message="Please confirm your password"), EqualTo('new_password', message="Passwords must match.")])
+        message="Confirm your password"), EqualTo('new_password', message="Passwords must match.")])
 
     def validate_new_password(self, new_password):
         if new_password.data == self.current_password.data:
