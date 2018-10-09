@@ -28,7 +28,8 @@ class UserForm(FlaskForm):
 class LogInForm(FlaskForm):
     email_address = StringField('Email address', validators=[
                                 InputRequired(message="Email address is required"), Email()])
-    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters long")])
+    password = PasswordField('Password', validators=[InputRequired(message="Password is required"), Length(min=8, max=72, message="Password must be between 8 and 72 characters long")],
+                             description="Must be between 8 and 72 characters long.")
     remember_me = BooleanField('Remember me')
 
 
@@ -38,9 +39,9 @@ class ProfileForm(FlaskForm):
     email_address = StringField('Email address', validators=[InputRequired(message="Email address is required"), Email()],
                                 description="We'll never share your email with anyone else.")
 
-    # def validate_email_address(self, email_address):
-    #     if User().search(email_address.data):
-    #         raise ValidationError('Email address is already in use')
+    def validate_email_address(self, email_address):
+        if User().search(email_address.data):
+            raise ValidationError('Email address is already in use')
 
 
 class PasswordForm(FlaskForm):
