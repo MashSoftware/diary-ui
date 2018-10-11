@@ -5,7 +5,7 @@ from wtforms import (BooleanField, DateField, DateTimeField, DecimalField,
                      PasswordField, RadioField, SelectField, StringField,
                      TextAreaField)
 from wtforms.validators import (Email, EqualTo, InputRequired, Length,
-                                Optional, ValidationError)
+                                NumberRange, Optional, ValidationError)
 
 from app.models import User
 
@@ -73,14 +73,77 @@ class UserSearchForm(FlaskForm):
                                 InputRequired(message="Email address is required"), Email()])
 
 
-class EventForm(FlaskForm):
-    type = SelectField('Type', choices=[('sleep', 'Sleep'), ('feed', 'Feed'),
-                                        ('change', 'Change')], validators=[InputRequired(message="Type is required")])
-    started_at = DateTimeField('Started at', format='%d/%m/%Y %H:%M:%S',
-                               validators=[InputRequired(message="Started at is required")], default=datetime.utcnow)
-    ended_at = DateTimeField('Ended at', format='%d/%m/%Y %H:%M:%S',
-                             validators=[Optional()], description="Leave blank if ongoing")
-    amount = DecimalField('Amount', validators=[Optional()])
-    unit = StringField('Unit', validators=[Optional()])
-    side = RadioField('Side', choices=[('left', 'Left'), ('right', 'Right')], validators=[Optional()])
-    notes = TextAreaField('Notes', validators=[Optional()])
+class SleepForm(FlaskForm):
+    started_at = DateTimeField(
+        'Fell asleep',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[InputRequired(message="Started at is required")],
+        default=datetime.utcnow)
+    ended_at = DateTimeField(
+        'Woke up',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[Optional()],
+        description="Leave blank if ongoing")
+    notes = TextAreaField(
+        'Notes',
+        validators=[Optional()])
+
+
+class BreastfeedForm(FlaskForm):
+    started_at = DateTimeField(
+        'Started at',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[InputRequired(message="Started at is required")],
+        default=datetime.utcnow)
+    ended_at = DateTimeField(
+        'Ended at',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[Optional()],
+        description="Leave blank if ongoing")
+    side = RadioField(
+        'Side',
+        choices=[('left', 'Left'), ('right', 'Right')],
+        validators=[Optional()])
+    notes = TextAreaField(
+        'Notes',
+        validators=[Optional()])
+
+
+class FormulaForm(FlaskForm):
+    started_at = DateTimeField(
+        'Started at',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[InputRequired(message="Started at is required")],
+        default=datetime.utcnow)
+    ended_at = DateTimeField(
+        'Ended at',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[Optional()],
+        description="Leave blank if ongoing")
+    amount = DecimalField(
+        'Amount',
+        validators=[
+            InputRequired(message="Amount is required"),
+            NumberRange(min=0, message="Amount must be 0 or more")])
+    unit = SelectField(
+        'Units',
+        choices=[('ml', 'ml'), ('fl oz', 'fl oz')],
+        validators=[InputRequired(message="Units is required")])
+    notes = TextAreaField(
+        'Notes',
+        validators=[Optional()])
+
+
+class ChangeForm(FlaskForm):
+    change_type = SelectField(
+        'Change type',
+        choices=[('soiled', 'Soiled'), ('wet', 'Wet'), ('clean', 'Clean')],
+        validators=[InputRequired(message="Change type is required")])
+    started_at = DateTimeField(
+        'Started at',
+        format='%d/%m/%Y %H:%M:%S',
+        validators=[InputRequired(message="Started at is required")],
+        default=datetime.utcnow)
+    notes = TextAreaField(
+        'Notes',
+        validators=[Optional()])
