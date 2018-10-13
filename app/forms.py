@@ -77,7 +77,7 @@ class SleepForm(FlaskForm):
     started_at = DateTimeField(
         'Fell asleep',
         format='%d/%m/%Y %H:%M:%S',
-        validators=[InputRequired(message="Started at is required")],
+        validators=[InputRequired(message="Fell asleep is required")],
         default=datetime.utcnow)
     ended_at = DateTimeField(
         'Woke up',
@@ -87,6 +87,10 @@ class SleepForm(FlaskForm):
     notes = TextAreaField(
         'Notes',
         validators=[Optional()])
+
+    def validate_ended_at(self, ended_at):
+        if ended_at.data <= self.started_at.data:
+            raise ValidationError('Woke up must be after fell asleep')
 
 
 class BreastfeedForm(FlaskForm):
