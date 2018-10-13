@@ -2,7 +2,42 @@
 {% block content %}
 <div class="row">
     <div class="col">
-        <a class="btn btn-success" href="#" role="button"><i class="fas fa-plus fa-lg fa-fw"></i> Add an entry</a>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-plus fa-lg fa-fw"></i> Add an event
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{ url_for('add_sleep') }}">Sleep</a>
+                <a class="dropdown-item" href="{{ url_for('add_breastfeed') }}">Breastfeed</a>
+                <a class="dropdown-item" href="{{ url_for('add_formula') }}">Formula</a>
+                <a class="dropdown-item" href="{{ url_for('add_change') }}">Change</a>
+            </div>
+        </div>
+        <br><br>
     </div>
 </div>
+{% if events %}
+{% for event in events %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ event.type | capitalize }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ event.started_at }}</h6>
+                {% if event.ended_at %}<h6 class="card-subtitle mb-2 text-muted">to {{ event.ended_at }}</h6>{% endif %}
+                {% if event.type == 'feed' %}<p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }}</p>{% endif %}
+                {% if event.description %}<p class="card-text">{{ event.description }}</p>{% endif %}
+            </div>
+            <div class="card-footer text-muted">
+                <a href="#" class="card-link"><i class="fas fa-edit fa-lg fa-fw"></i> Update</a>
+                <a href="#" class="card-link"><i class="fas fa-trash fa-lg fa-fw"></i> Delete</a>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
 {% endblock %}
