@@ -280,8 +280,38 @@ class Child(object):
 
 class Event(object):
 
-    def create(self, event):
-        pass
+    def create(self, user_id, child_id, type, started_at, ended_at, feed_type, change_type, amount, unit, side, description):
+        """Create a new event."""
+        url = '{0}/{1}/events'.format(base_url, version)
+
+        new_event = {
+            "user_id": user_id,
+            "child_id": child_id,
+            "type": type,
+            "started_at": started_at,
+            "ended_at": ended_at,
+            "feed_type": feed_type,
+            "change_type": change_type,
+            "amount": amount,
+            "unit": unit,
+            "side": side,
+            "description": description
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+
+        try:
+            response = requests.post(url, data=json.dumps(new_event), headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 201:
+                raise InternalServerError()
+            else:
+                return json.loads(response.text)
 
     def get(self, id):
         pass
