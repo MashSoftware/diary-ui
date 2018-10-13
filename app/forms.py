@@ -137,6 +137,10 @@ class FormulaForm(FlaskForm):
         'Notes',
         validators=[Optional()])
 
+    def validate_ended_at(self, ended_at):
+        if ended_at.data <= self.started_at.data:
+            raise ValidationError('Ended at must be after started at')
+
 
 class ChangeForm(FlaskForm):
     change_type = SelectField(
