@@ -11,6 +11,9 @@
                 {% else %}
                 {{ form.started_at(class="form-control", type="datetime-local") }}
                 {% endif %}
+                {% if form.started_at.description %}
+                <small id="{{ form.started_at.id }}Help" class="form-text text-muted">{{ form.started_at.description }}</small>
+                {% endif %}
                 {% for error in form.started_at.errors %}
                 <div class="invalid-feedback">{{error}}</div>
                 {% endfor %}
@@ -22,7 +25,9 @@
                 {% else %}
                 {{ form.ended_at(class="form-control", type="datetime-local") }}
                 {% endif %}
-                <small id="endedAtHelp" class="form-text text-muted">{{ form.ended_at.description }}</small>
+                {% if form.ended_at.description %}
+                <small id="{{ form.ended_at.id }}Help" class="form-text text-muted">{{ form.ended_at.description }}</small>
+                {% endif %}
                 {% for error in form.ended_at.errors %}
                 <div class="invalid-feedback">{{error}}</div>
                 {% endfor %}
@@ -33,6 +38,9 @@
                 {{ form.notes(class="form-control is-invalid") }}
                 {% else %}
                 {{ form.notes(class="form-control") }}
+                {% endif %}
+                {% if form.notes.description %}
+                <small id="{{ form.notes.id }}Help" class="form-text text-muted">{{ form.notes.description }}</small>
                 {% endif %}
                 {% for error in form.notes.errors %}
                 <div class="invalid-feedback">{{error}}</div>
