@@ -1,12 +1,14 @@
+from datetime import date
+
 from flask import flash, redirect, render_template, request, url_for
 from werkzeug.exceptions import Forbidden
 from werkzeug.urls import url_parse
-from datetime import date
 
 from app import app
-from app.forms import (ChildForm, LogInForm, PasswordForm, ProfileForm,
+from app.forms import (BreastfeedForm, ChangeForm, ChildForm, FormulaForm,
+                       LogInForm, PasswordForm, ProfileForm, SleepForm,
                        UserForm, UserSearchForm)
-from app.models import Child, User
+from app.models import Child, Event, User
 from flask_login import current_user, login_required, login_user, logout_user
 
 
@@ -27,7 +29,7 @@ def signup():
         flash('Thanks for signing up!', 'success')
         return redirect(url_for('get_user', id=str(user.id)))
 
-    return render_template('sign_up.html', title='Create a new account', form=form)
+    return render_template('sign_up.html', title='Create an account', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -194,4 +196,72 @@ def search_user(id):
 @app.route('/diary', methods=['GET'])
 @login_required
 def view_diary():
-    return render_template('diary.html', title="My diary")
+    events = Event().get_for_child(current_user.children[0])
+    return render_template('diary.html', title="My diary", events=events)
+
+
+@app.route('/diary/add-sleep', methods=['GET', 'POST'])
+@login_required
+def add_sleep():
+    form = SleepForm()
+    if form.validate_on_submit():
+        Event().create(
+            user_id=current_user.id,
+            child_id=current_user.children[0],
+            type='sleep',
+            started_at=str(form.started_at.data),
+            ended_at=str(form.ended_at.data) if form.ended_at.data else None,
+            feed_type=None,
+            change_type=None,
+            amount=None,
+            unit=None,
+            side=None,
+            description=form.notes.data)
+        flash('Sleep has been added', 'success')
+        return redirect(url_for('view_diary'))
+
+    return render_template('sleep.html', title='Add sleep', form=form)
+
+
+@app.route('/diary/add-breastfeed', methods=['GET', 'POST'])
+@login_required
+def add_breastfeed():
+    form = BreastfeedForm()
+
+    if form.validate_on_submit():
+        pass
+
+    return render_template('breastfeed.html', title='Add breastfeed', form=form)
+
+
+@app.route('/diary/add-formula', methods=['GET', 'POST'])
+@login_required
+def add_formula():
+    form = FormulaForm()
+    if form.validate_on_submit():
+        Event().create(
+            user_id=current_user.id,
+            child_id=current_user.children[0],
+            type='feed',
+            started_at=str(form.started_at.data),
+            ended_at=str(form.ended_at.data) if form.ended_at.data else None,
+            feed_type='formula',
+            change_type=None,
+            amount=float(form.amount.data),
+            unit=form.unit.data,
+            side=None,
+            description=form.notes.data)
+        flash('Formula has been added', 'success')
+        return redirect(url_for('view_diary'))
+    return render_template('formula.html', title='Add formula', form=form)
+
+
+@app.route('/diary/add-change', methods=['GET', 'POST'])
+@login_required
+def add_change():
+    form = ChangeForm()
+
+    if form.validate_on_submit():
+        pass
+
+    return render_template('change.html', title='Add change', form=form)
