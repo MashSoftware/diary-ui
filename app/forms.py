@@ -95,19 +95,19 @@ class SleepForm(FlaskForm):
 
 class BreastfeedForm(FlaskForm):
     started_at = DateTimeField(
-        'Started at',
+        'Started feeding',
         format='%d/%m/%Y %H:%M:%S',
         validators=[InputRequired(message="Started at is required")],
         default=datetime.utcnow)
     ended_at = DateTimeField(
-        'Ended at',
+        'Finished feeding',
         format='%d/%m/%Y %H:%M:%S',
         validators=[Optional()],
         description="Leave blank if ongoing")
     side = RadioField(
         'Side',
         choices=[('left', 'Left'), ('right', 'Right')],
-        validators=[Optional()])
+        validators=[InputRequired(message='Side is required')])
     notes = TextAreaField(
         'Notes',
         validators=[Optional()])
@@ -115,12 +115,12 @@ class BreastfeedForm(FlaskForm):
 
 class FormulaForm(FlaskForm):
     started_at = DateTimeField(
-        'Started at',
+        'Started feeding',
         format='%d/%m/%Y %H:%M:%S',
         validators=[InputRequired(message="Started at is required")],
         default=datetime.utcnow)
     ended_at = DateTimeField(
-        'Ended at',
+        'Finished feeding',
         format='%d/%m/%Y %H:%M:%S',
         validators=[Optional()],
         description="Leave blank if ongoing")
@@ -148,7 +148,7 @@ class ChangeForm(FlaskForm):
         choices=[('soiled', 'Soiled'), ('wet', 'Wet'), ('clean', 'Clean')],
         validators=[InputRequired(message="Change type is required")])
     started_at = DateTimeField(
-        'Started at',
+        'Changed at',
         format='%d/%m/%Y %H:%M:%S',
         validators=[InputRequired(message="Started at is required")],
         default=datetime.utcnow)

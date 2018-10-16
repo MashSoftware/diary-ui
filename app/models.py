@@ -280,13 +280,12 @@ class Child(object):
 
 class Event(object):
 
-    def create(self, user_id, child_id, type, started_at, ended_at, feed_type, change_type, amount, unit, side, description):
+    def create(self, user_id, child_id, type, started_at, ended_at, feed_type, change_type, amount, unit, side, notes):
         """Create a new event."""
-        url = '{0}/{1}/events'.format(base_url, version)
+        url = '{0}/{1}/children/{2}/events'.format(base_url, version, child_id)
 
         new_event = {
             "user_id": user_id,
-            "child_id": child_id,
             "type": type,
             "started_at": started_at,
             "ended_at": ended_at,
@@ -295,7 +294,7 @@ class Event(object):
             "amount": amount,
             "unit": unit,
             "side": side,
-            "description": description
+            "notes": notes
         }
 
         headers = {
@@ -313,12 +312,10 @@ class Event(object):
             else:
                 return json.loads(response.text)
 
-    def get(self, id):
-        pass
-
-    def get_for_child(self, child_id):
+    def get(self, child_id):
         """Get events for child."""
-        url = '{0}/{1}/events?child_id={2}'.format(base_url, version, child_id)
+        url = '{0}/{1}/children/{2}/events'.format(base_url, version, child_id)
+
         headers = {"Accept": "application/json"}
 
         try:
@@ -334,7 +331,9 @@ class Event(object):
                 return json.loads(response.text)
 
     def update(self, id):
+        """Update event for child."""
         pass
 
     def delete(self, id):
+        """Delete event for child."""
         pass

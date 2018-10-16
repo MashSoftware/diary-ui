@@ -196,7 +196,7 @@ def search_user(id):
 @app.route('/diary', methods=['GET'])
 @login_required
 def view_diary():
-    events = Event().get_for_child(current_user.children[0])
+    events = Event().get(current_user.children[0])
     return render_template('diary.html', title="My diary", events=events)
 
 
@@ -216,7 +216,7 @@ def add_sleep():
             amount=None,
             unit=None,
             side=None,
-            description=form.notes.data)
+            notes=form.notes.data)
         flash('Sleep has been added', 'success')
         return redirect(url_for('view_diary'))
 
@@ -250,7 +250,7 @@ def add_formula():
             amount=float(form.amount.data),
             unit=form.unit.data,
             side=None,
-            description=form.notes.data)
+            notes=form.notes.data)
         flash('Formula has been added', 'success')
         return redirect(url_for('view_diary'))
     return render_template('formula.html', title='Add formula', form=form)
