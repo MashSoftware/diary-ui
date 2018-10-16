@@ -70,15 +70,38 @@
         {% for category, message in messages %}
         <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
             {% if category == 'danger' %}
-            <h4 class="alert-heading"><i class="fas fa-exclamation-circle fa-lg fa-fw"></i> There is a problem</h4>
+            <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-exclamation-circle fa-4x fa-fw"></i>
+                    </div>
+                    <div class="col-11">
+                        <h4 class="alert-heading">There is a problem</h4>
+                        {{ message }}
+                    </div> 
+            </div>
             {% endif %}
             {% if category == 'success' %}
-            <h4 class="alert-heading"><i class="fas fa-check-circle fa-lg fa-fw"></i> Success</h4>
+            <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-check-circle fa-4x fa-fw"></i>
+                    </div>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Success</h4>
+                        {{ message }}
+                    </div> 
+            </div>
             {% endif %}
             {% if category == 'info' %}
-            <h4 class="alert-heading"><i class="fas fa-info-circle fa-lg fa-fw"></i> Heads up</h4>
+            <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-info-circle fa-4x fa-fw"></i>
+                    </div>
+                    <div class="col-11">
+                        <h4 class="alert-heading">Heads up</h4>
+                        {{ message }}
+                    </div> 
+            </div>
             {% endif %}
-            {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -88,12 +111,19 @@
         {% endwith %}
         {% if form and form.errors %}
         <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading"><i class="fas fa-exclamation-circle fa-lg fa-fw"></i> There is a problem</h4>
-            {% for field, errors in form.errors.items() %}
-            {% for error in errors %}
-            <p class="mb-1"><a href="#{{field}}" class="alert-link">{{ error }}</a></p>
-            {% endfor %}
-            {% endfor %}
+            <div class="row">
+                <div class="col-1">
+                    <i class="fas fa-exclamation-circle fa-4x fa-fw"></i>
+                </div>
+                <div class="col-11">
+                    <h4 class="alert-heading">There is a problem</h4>
+                    {% for field, errors in form.errors.items() %}
+                    {% for error in errors %}
+                    <p class="mb-1"><a href="#{{field}}" class="alert-link">{{ error }}</a></p>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
         {% endif %}
         {% if title %}
