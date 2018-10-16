@@ -265,3 +265,14 @@ def add_change():
         pass
 
     return render_template('change.html', title='Add change', form=form)
+
+
+@app.route('/events/<uuid:child_id>/events/<uuid:event_id>', methods=['GET'])
+@login_required
+def delete_event(child_id, event_id):
+    if str(child_id) not in current_user.children:
+        raise Forbidden()
+
+    if Event().delete(child_id, event_id) is True:
+        flash('Event has been permanently deleted.', 'success')
+        return redirect(url_for('view_diary'))

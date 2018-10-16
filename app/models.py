@@ -334,6 +334,17 @@ class Event(object):
         """Update event for child."""
         pass
 
-    def delete(self, id):
+    def delete(self, child_id, event_id):
         """Delete event for child."""
-        pass
+        url = '{0}/{1}/children/{2}/events/{3}'.format(base_url, version, str(child_id), str(event_id))
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.delete(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 204:
+                raise InternalServerError()
+            else:
+                return True
