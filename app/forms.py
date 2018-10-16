@@ -90,7 +90,10 @@ class SleepForm(FlaskForm):
 
     def validate_ended_at(self, ended_at):
         if ended_at.data <= self.started_at.data:
-            raise ValidationError('Woke up must be after fell asleep')
+            raise ValidationError('Wake up must be after fell asleep')
+
+        if ended_at.data > datetime.utcnow():
+            raise ValidationError('Wake up must be in the past')
 
 
 class BreastfeedForm(FlaskForm):
@@ -111,6 +114,13 @@ class BreastfeedForm(FlaskForm):
     notes = TextAreaField(
         'Notes',
         validators=[Optional()])
+
+    def validate_ended_at(self, ended_at):
+        if ended_at.data <= self.started_at.data:
+            raise ValidationError('Finished must be after started')
+
+        if ended_at.data > datetime.utcnow():
+            raise ValidationError('Finished must be in the past')
 
 
 class FormulaForm(FlaskForm):
@@ -139,7 +149,10 @@ class FormulaForm(FlaskForm):
 
     def validate_ended_at(self, ended_at):
         if ended_at.data <= self.started_at.data:
-            raise ValidationError('Ended at must be after started at')
+            raise ValidationError('Finished must be after started')
+
+        if ended_at.data > datetime.utcnow():
+            raise ValidationError('Finished must be in the past')
 
 
 class ChangeForm(FlaskForm):
