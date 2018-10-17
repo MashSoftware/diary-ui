@@ -31,7 +31,7 @@
             <div class="col">&nbsp;</div>
         </div>
         <h5 class="m-2">
-            <span class="badge badge-pill bg-light border">&nbsp;</span>
+            <i class="fas fa-circle fa-lg text-muted"></i>
         </h5>
         <div class="row h-50">
             {% if loop.last %}
@@ -44,7 +44,7 @@
     </div>
     <!-- timeline item event content -->
     <div class="col py-2">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div class="float-right text-muted"><i class="fas fa-user fa-lg fa-fw"></i> Added by: {% if event.user_id == current_user.id %}You{% else %}{{ event.user_id }}{% endif %}</div>
                 <h5 class="card-title">{{ event.type | capitalize }}</h5>
