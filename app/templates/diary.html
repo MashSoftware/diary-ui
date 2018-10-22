@@ -49,8 +49,14 @@
                 <div class="float-right text-muted"><i class="fas fa-user fa-lg fa-fw"></i> Added by: {% if event.user_id == current_user.id %}You{% else %}{{ event.user_id }}{% endif %}</div>
                 <h5 class="card-title">{{ event.type | capitalize }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">At {{ event.started_at }}{% if event.ended_at %} to {{ event.ended_at }}{% endif %}</h6>
-                {% if event.type == 'feed' %}<p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }}</p>{% endif %}
-                {% if event.type == 'change' %}<p class="card-text">{{ event.change_type | capitalize }}</p>{% endif %}
+                {% if event.type == 'feed' %}
+                {% if event.feed_type == 'formula' %}
+                <p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }}</p>
+                {% elif event.feed_type == 'breast' %}
+                <p class="card-text">{{ event.side | capitalize }} breast</p>
+                {% endif %}
+                {% endif %}
+                {% if event.type == 'change' %}<p class="card-text">{{ event.change_type | capitalize }} nappy</p>{% endif %}
                 {% if event.notes %}<p class="card-text">{{ event.notes }}</p>{% endif %}
             </div>
             <div class="card-footer text-muted">

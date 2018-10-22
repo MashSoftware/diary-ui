@@ -227,10 +227,21 @@ def add_sleep():
 @login_required
 def add_breastfeed():
     form = BreastfeedForm()
-
     if form.validate_on_submit():
-        pass
-
+        Event().create(
+            user_id=current_user.id,
+            child_id=current_user.children[0],
+            type='feed',
+            started_at=str(form.started_at.data),
+            ended_at=str(form.ended_at.data) if form.ended_at.data else None,
+            feed_type='breast',
+            change_type=None,
+            amount=None,
+            unit=None,
+            side=form.side.data,
+            notes=form.notes.data)
+        flash('Breastfeed has been added', 'success')
+        return redirect(url_for('view_diary'))
     return render_template('breastfeed.html', title='Add breastfeed', form=form)
 
 
