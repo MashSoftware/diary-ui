@@ -260,10 +260,21 @@ def add_formula():
 @login_required
 def add_change():
     form = ChangeForm()
-
     if form.validate_on_submit():
-        pass
-
+        Event().create(
+            user_id=current_user.id,
+            child_id=current_user.children[0],
+            type='change',
+            started_at=str(form.started_at.data),
+            ended_at=None,
+            feed_type=None,
+            change_type=form.change_type.data,
+            amount=None,
+            unit=None,
+            side=None,
+            notes=form.notes.data)
+        flash('Change has been added', 'success')
+        return redirect(url_for('view_diary'))
     return render_template('change.html', title='Add change', form=form)
 
 

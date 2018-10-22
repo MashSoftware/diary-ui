@@ -50,6 +50,7 @@
                 <h5 class="card-title">{{ event.type | capitalize }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">At {{ event.started_at }}{% if event.ended_at %} to {{ event.ended_at }}{% endif %}</h6>
                 {% if event.type == 'feed' %}<p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }}</p>{% endif %}
+                {% if event.type == 'change' %}<p class="card-text">{{ event.change_type | capitalize }}</p>{% endif %}
                 {% if event.notes %}<p class="card-text">{{ event.notes }}</p>{% endif %}
             </div>
             <div class="card-footer text-muted">
