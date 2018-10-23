@@ -71,10 +71,10 @@
         <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
             {% if category == 'danger' %}
             <div class="row">
-                    <div class="col-1">
-                        <i class="fas fa-exclamation-circle fa-4x fa-fw"></i>
+                    <div class="col-auto">
+                        <i class="fas fa-exclamation-circle fa-4x"></i>
                     </div>
-                    <div class="col-11">
+                    <div class="col-auto">
                         <h4 class="alert-heading">There is a problem</h4>
                         {{ message }}
                     </div> 
@@ -82,10 +82,10 @@
             {% endif %}
             {% if category == 'success' %}
             <div class="row">
-                    <div class="col-1">
-                        <i class="fas fa-check-circle fa-4x fa-fw"></i>
+                    <div class="col-auto">
+                        <i class="fas fa-check-circle fa-4x"></i>
                     </div>
-                    <div class="col-11">
+                    <div class="col-auto">
                         <h4 class="alert-heading">Success</h4>
                         {{ message }}
                     </div> 
@@ -93,10 +93,10 @@
             {% endif %}
             {% if category == 'info' %}
             <div class="row">
-                    <div class="col-1">
-                        <i class="fas fa-info-circle fa-4x fa-fw"></i>
+                    <div class="col-auto">
+                        <i class="fas fa-info-circle fa-4x"></i>
                     </div>
-                    <div class="col-11">
+                    <div class="col-auto">
                         <h4 class="alert-heading">Heads up</h4>
                         {{ message }}
                     </div> 
@@ -112,10 +112,10 @@
         {% if form and form.errors %}
         <div class="alert alert-danger" role="alert">
             <div class="row">
-                <div class="col-1">
-                    <i class="fas fa-exclamation-circle fa-4x fa-fw"></i>
+                <div class="col-auto">
+                    <i class="fas fa-exclamation-circle fa-4x"></i>
                 </div>
-                <div class="col-11">
+                <div class="col-auto">
                     <h4 class="alert-heading">There is a problem</h4>
                     {% for field, errors in form.errors.items() %}
                     {% for error in errors %}
