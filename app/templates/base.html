@@ -23,7 +23,7 @@
     <title>{% if title %}{{ title }} | {% endif %}Childcare Diary</title>
 </head>
 
-<body style="background-color:#f8f8f8">
+<body {% if background %}style="background:url({{background}}) no-repeat center fixed; background-size: cover;"{% else %}style="background-color:#f8f8f8"{% endif %}>
     <nav class="navbar navbar-expand-md navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('index') }}">Childcare Diary</a>
@@ -68,7 +68,7 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        <div class="alert alert-{{category}} alert-dismissible fade show shadow-sm" role="alert">
             {% if category == 'danger' %}
             <div class="row">
                     <div class="col-auto">
@@ -110,7 +110,7 @@
         {% endif %}
         {% endwith %}
         {% if form and form.errors %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger shadow-sm" role="alert">
             <div class="row">
                 <div class="col-auto">
                     <i class="fas fa-exclamation-circle fa-4x"></i>
