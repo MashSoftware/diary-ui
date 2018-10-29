@@ -83,7 +83,7 @@ class User(UserMixin):
                 for k, v in user_dict.items():
                     setattr(user, k, v)
                 user.created_at = dateutil.parser.parse(user.created_at)
-                user.updated_at = dateutil.parser.parse(user.updated_at)
+                user.updated_at = dateutil.parser.parse(user.updated_at) if user.updated_at else None
                 user.login_at = dateutil.parser.parse(user.login_at)
                 return user
 
