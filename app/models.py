@@ -1,5 +1,6 @@
 import json
 
+import dateutil.parser
 import requests
 from werkzeug.exceptions import InternalServerError, RequestTimeout
 
@@ -81,6 +82,9 @@ class User(UserMixin):
                 user = self
                 for k, v in user_dict.items():
                     setattr(user, k, v)
+                user.created_at = dateutil.parser.parse(user.created_at)
+                user.updated_at = dateutil.parser.parse(user.updated_at)
+                user.login_at = dateutil.parser.parse(user.login_at)
                 return user
 
     def update_profile(self, id, first_name, last_name, email_address):
