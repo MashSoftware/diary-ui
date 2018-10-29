@@ -27,7 +27,7 @@ def signup():
         user = User().create(form.password.data, form.first_name.data.title(),
                              form.last_name.data.title(), form.email_address.data)
         flash('Thanks for signing up!', 'success')
-        return redirect(url_for('get_user', id=str(user.id)))
+        return redirect(url_for('register_child', id=str(user.id)))
 
     return render_template('sign_up.html', form=form, background=url_for('static', filename='img/susan-holt-simpson-799094-unsplash.jpg'))
 
