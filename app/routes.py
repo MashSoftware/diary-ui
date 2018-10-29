@@ -5,7 +5,7 @@ from werkzeug.exceptions import Forbidden
 from werkzeug.urls import url_parse
 
 from app import app
-from app.forms import (BreastfeedForm, ChangeForm, ChildForm, FormulaForm,
+from app.forms import (BottleForm, BreastfeedForm, ChangeForm, ChildForm,
                        LogInForm, PasswordForm, ProfileForm, SleepForm,
                        UserForm, UserSearchForm)
 from app.models import Child, Event, User
@@ -14,7 +14,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', background=url_for('static', filename='img/susan-holt-simpson-799094-unsplash.jpg'))
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -29,7 +29,7 @@ def signup():
         flash('Thanks for signing up!', 'success')
         return redirect(url_for('get_user', id=str(user.id)))
 
-    return render_template('sign_up.html', title='Create an account', form=form)
+    return render_template('sign_up.html', form=form, background=url_for('static', filename='img/susan-holt-simpson-799094-unsplash.jpg'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -49,7 +49,7 @@ def login():
             next_page = url_for('view_diary')
         flash('Welcome back {0}!'.format(current_user.first_name), 'success')
         return redirect(next_page)
-    return render_template('log_in.html', title='Log in', form=form)
+    return render_template('log_in.html', form=form, background=url_for('static', filename='img/susan-holt-simpson-799094-unsplash.jpg'))
 
 
 @app.route('/logout')
@@ -131,11 +131,7 @@ def register_child():
 @app.route('/children', methods=['GET'])
 @login_required
 def view_children():
-    children = []
-    for id in current_user.children:
-        # Should have API route to get array of children for a user ID
-        # One API call rather than X many
-        children.append(Child().get(id))
+    children = Child().get_for_user(current_user.id)
     return render_template('children.html', title="My children", children=children)
 
 
@@ -245,10 +241,10 @@ def add_breastfeed():
     return render_template('breastfeed.html', title='Add breastfeed', form=form)
 
 
-@app.route('/diary/add-formula', methods=['GET', 'POST'])
+@app.route('/diary/add-feed', methods=['GET', 'POST'])
 @login_required
-def add_formula():
-    form = FormulaForm()
+def add_bottle():
+    form = BottleForm()
     if form.validate_on_submit():
         Event().create(
             user_id=current_user.id,
@@ -256,15 +252,15 @@ def add_formula():
             type='feed',
             started_at=str(form.started_at.data),
             ended_at=str(form.ended_at.data) if form.ended_at.data else None,
-            feed_type='formula',
+            feed_type=form.feed_type.data,
             change_type=None,
             amount=float(form.amount.data),
             unit=form.unit.data,
             side=None,
             notes=form.notes.data)
-        flash('Formula has been added', 'success')
+        flash('Bottle feed has been added', 'success')
         return redirect(url_for('view_diary'))
-    return render_template('formula.html', title='Add formula', form=form)
+    return render_template('bottle.html', title='Add bottle feed', form=form)
 
 
 @app.route('/diary/add-change', methods=['GET', 'POST'])
@@ -277,7 +273,7 @@ def add_change():
             child_id=current_user.children[0],
             type='change',
             started_at=str(form.started_at.data),
-            ended_at=None,
+            ended_at=str(form.started_at.data),
             feed_type=None,
             change_type=form.change_type.data,
             amount=None,
