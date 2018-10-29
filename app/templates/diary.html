@@ -10,7 +10,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ url_for('add_sleep') }}">Sleep</a>
                 <a class="dropdown-item" href="{{ url_for('add_breastfeed') }}">Breastfeed</a>
-                <a class="dropdown-item" href="{{ url_for('add_formula') }}">Formula</a>
+                <a class="dropdown-item" href="{{ url_for('add_bottle') }}">Bottle</a>
                 <a class="dropdown-item" href="{{ url_for('add_change') }}">Change</a>
             </div>
         </div>
@@ -52,8 +52,10 @@
                 {% if event.type == 'feed' %}
                 {% if event.feed_type == 'formula' %}
                 <p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }}</p>
-                {% elif event.feed_type == 'breast' %}
+                {% elif event.feed_type == 'breast' and event.side %}
                 <p class="card-text">{{ event.side | capitalize }} breast</p>
+                {% elif event.feed_type == 'breast' and event.amount %}
+                <p class="card-text">{{ event.amount }} {{ event.unit }} of {{ event.feed_type }} milk</p>
                 {% endif %}
                 {% endif %}
                 {% if event.type == 'change' %}<p class="card-text">{{ event.change_type | capitalize }} nappy</p>{% endif %}
