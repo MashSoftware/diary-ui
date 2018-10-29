@@ -123,7 +123,7 @@ class BreastfeedForm(FlaskForm):
             raise ValidationError('Finished must be in the past')
 
 
-class FormulaForm(FlaskForm):
+class BottleForm(FlaskForm):
     started_at = DateTimeField(
         'Started feeding',
         format='%d/%m/%Y %H:%M:%S',
@@ -134,6 +134,11 @@ class FormulaForm(FlaskForm):
         format='%d/%m/%Y %H:%M:%S',
         validators=[Optional()],
         description="Leave blank if ongoing")
+    feed_type = SelectField(
+        'Feed type',
+        choices=[('breast', 'Breast milk'), ('formula', 'Formula')],
+        validators=[InputRequired(message="Feed type is required")]
+    )
     amount = DecimalField(
         'Amount',
         validators=[
