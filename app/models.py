@@ -236,6 +236,21 @@ class Child(object):
             else:
                 return json.loads(response.text)
 
+    def get_for_user(self, user_id):
+        """Get children for a user."""
+        url = '{0}/{1}/children?user_id={2}'.format(base_url, version, str(user_id))
+        headers = {"Accept": "application/json"}
+
+        try:
+            response = requests.get(url, headers=headers, timeout=timeout)
+        except requests.exceptions.Timeout:
+            raise RequestTimeout()
+        else:
+            if response.status_code != 200:
+                raise InternalServerError()
+            else:
+                return json.loads(response.text)
+
     def update(self, id, first_name, last_name, date_of_birth, users):
         """Update a child."""
         url = '{0}/{1}/children/{2}'.format(base_url, version, str(id))
