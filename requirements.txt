@@ -14,7 +14,9 @@ idna==2.7                 # via requests
 itsdangerous==1.1.0       # via flask
 jinja2==2.10              # via flask
 markupsafe==1.0           # via jinja2
+python-dateutil==2.7.5
 requests==2.20.0
+six==1.11.0               # via python-dateutil
 urllib3==1.24             # via requests
 werkzeug==0.14.1          # via flask
 wtforms==2.2.1            # via flask-wtf
