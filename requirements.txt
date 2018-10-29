@@ -11,7 +11,7 @@ flask-login==0.4.1
 flask-wtf==0.14.2
 flask==1.0.2
 idna==2.7                 # via requests
-itsdangerous==1.0.0       # via flask
+itsdangerous==1.1.0       # via flask
 jinja2==2.10              # via flask
 markupsafe==1.0           # via jinja2
 requests==2.20.0
