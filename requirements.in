@@ -2,6 +2,6 @@ flask-login==0.4.1
 flask-wtf==0.14.2
 flask==1.0.2
 python-dateutil==2.7.5
-requests==2.20.0
+requests==2.21.0
 # Generated with piprot 0.9.10
 # Looks like you've been keeping up to date, time for a delicious beverage!
