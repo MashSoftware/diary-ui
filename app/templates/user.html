@@ -25,9 +25,9 @@
 <div class="row">
     <div class="col">
         <hr>
-        <p><a class="btn btn-primary" href="{{ url_for('update_profile', id=current_user.id) }}" role="button"><i class="fas fa-user-edit fa-lg fa-fw"></i>
+        <p><a class="btn btn-primary" href="{{ url_for('update_profile') }}" role="button"><i class="fas fa-user-edit fa-lg fa-fw"></i>
             Update profile</a></p>
-        <p><a class="btn btn-primary" href="{{ url_for('change_password', id=current_user.id) }}" role="button"><i class="fas fa-key fa-lg fa-fw"></i>
+        <p><a class="btn btn-primary" href="{{ url_for('change_password') }}" role="button"><i class="fas fa-key fa-lg fa-fw"></i>
             Change password</a></p>
         <p><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash fa-lg fa-fw"></i>
             Delete account</button></p>
@@ -53,7 +53,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-chevron-left fa-lg fa-fw"></i> Cancel</button>
-                <a class="btn btn-danger" href="{{ url_for('delete_user', id=current_user.id) }}" role="button"><i
+                <a class="btn btn-danger" href="{{ url_for('delete_user') }}" role="button"><i
                         class="fas fa-trash fa-lg fa-fw"></i> Delete</a>
             </div>
         </div>

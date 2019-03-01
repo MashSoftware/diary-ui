@@ -59,26 +59,21 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route("/users/<uuid:id>", methods=['GET'])
+@app.route("/user", methods=['GET'])
 @login_required
-def get_user(id):
-    if str(id) != current_user.id:
-        raise Forbidden()
+def get_user():
     return render_template('user.html', title='My profile')
 
 
-@app.route("/users/<uuid:id>/update-profile", methods=['GET', 'POST'])
+@app.route("/user/update-profile", methods=['GET', 'POST'])
 @login_required
-def update_profile(id):
-    if str(id) != current_user.id:
-        raise Forbidden()
-
+def update_profile():
     form = ProfileForm()
     if form.validate_on_submit():
-        current_user.update_profile(str(id), form.first_name.data.title(),
+        current_user.update_profile(current_user.id, form.first_name.data.title(),
                                     form.last_name.data.title(), form.email_address.data)
         flash('Your profile has been updated', 'success')
-        return redirect(url_for('get_user', id=str(current_user.id)))
+        return redirect(url_for('get_user'))
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
@@ -86,32 +81,26 @@ def update_profile(id):
     return render_template('update_profile.html', title='Update profile', form=form)
 
 
-@app.route("/users/<uuid:id>/change-password", methods=['GET', 'POST'])
+@app.route("/user/change-password", methods=['GET', 'POST'])
 @login_required
-def change_password(id):
-    if str(id) != current_user.id:
-        raise Forbidden()
-
+def change_password():
     form = PasswordForm()
     if form.validate_on_submit():
-        user = User().change_password(str(id), form.current_password.data, form.new_password.data)
+        user = User().change_password(current_user.id, form.current_password.data, form.new_password.data)
         if user is None:
             flash('Invalid password.', 'danger')
-            return redirect(url_for('change_password', id=id))
+            return redirect(url_for('change_password'))
         flash('Your password has been changed', 'success')
-        return redirect(url_for('get_user', id=str(current_user.id)))
+        return redirect(url_for('get_user'))
 
     return render_template('change_password.html', title='Change password', form=form)
 
 
-@app.route("/users/<uuid:id>/delete", methods=['GET'])
+@app.route("/user/delete", methods=['GET'])
 @login_required
-def delete_user(id):
-    if str(id) != current_user.id:
-        raise Forbidden()
-
+def delete_user():
     logout_user()
-    if User().delete(id) is True:
+    if User().delete(current_user.id) is True:
         flash('Your account has been permanently deleted.', 'success')
         return redirect(url_for('index'))
 
